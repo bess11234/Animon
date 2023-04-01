@@ -1,19 +1,27 @@
+import java.util.ArrayList;
 public class Player {
-    private Animal[] animals;
+    private Animon animals[] = new Animon[3];
     private double money;
+    private ArrayList<Item> inventory;
 
     public Player() {
-        this.animals = new Animal[3];
+        this.animals = new Animon[3];
         this.money = 0.0;
+        this.inventory = new ArrayList<Item>();
     }
 
     public void buyItem(Item item) {
         this.money -= item.getPrice();
-        // add item to player's inventory???
+        this.inventory.add(item);
     }
 
     public double getMoney() {
         return this.money;
     }
+
+    public ArrayList<Item> getInventory() {
+        return this.inventory;
+    }
 }
-// anything else you can tell me
+
+// Anything else you can tell me

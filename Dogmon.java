@@ -1,6 +1,7 @@
 
 public class Dogmon extends Animon{
     public Dogmon(int level){
+        this.level = level;
         hp = level*6;
         baseAtk = level*2;
         skill.put("Bark", 1.5);

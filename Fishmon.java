@@ -7,7 +7,7 @@ public class Fishmon extends Animon{
         this.level = level;
         name = "Fisho";
         hp = level*10;
-        baseAtk = level*2;
+        baseAtk = level*5;
         skill.put("Dancig", 1.5);
         skill.put("Buble", 2);
         skill.put("Water Gun", 3);

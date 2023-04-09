@@ -5,44 +5,11 @@ import java.awt.event.*;
 public class ActionFrame extends JPanel implements Runnable{
     public Thread thread_main;
     public MyController ct;
-    public JPanel p00, p0, p1, p2, p3;
-    public JLabel lb1, lb2, lb3, lb4, lb5, lb6;
     private final int FPS = 60;
     public ActionFrame(){
         this.setLayout(new GridLayout(3, 1));
         ct = new MyController();
         thread_main = new Thread(this);
-        
-        
-        
-        p0 = new JPanel();
-        p00 = new JPanel();
-        p1 = new JPanel();
-        p1.setLayout(new GridLayout(1, 2));
-        p2 = new JPanel();
-        p3 = new JPanel();
-        p3.setLayout(new GridLayout(2, 2));
-        
-        lb1 = new JLabel();lb1.setBackground(Color.white);lb1.setOpaque(true);
-        lb2 = new JLabel();lb2.setBackground(Color.white);lb2.setOpaque(true);
-        lb3 = new JLabel();lb3.setBackground(Color.white);lb3.setOpaque(true);
-        lb4 = new JLabel();lb4.setBackground(Color.white);lb4.setOpaque(true);
-        lb6 = new JLabel();lb6.setBackground(Color.white);lb6.setOpaque(true);
-        
-       
-        p3.add(lb1);p3.add(lb2);p3.add(lb3);p3.add(lb4);
-        lb5 = new JLabel();lb5.setBackground(Color.black);lb5.setOpaque(true);
-        
-        
-        p2.add(lb5); 
-        p1.add(p2);p1.add(p3);
-        
-        this.add(p0);this.add(p00);this.add(p1);
-        
-        
-        
-        
-        
         this.setPreferredSize(new Dimension(1360, 768));
         this.setVisible(true);
         this.setFocusable(true);

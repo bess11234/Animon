@@ -5,8 +5,4 @@ public class PotionHpBig extends Item {
     public void useItem(Animon animon) {
         animon.hp += animon.maxHp*0.7;
     }
-    public String getName(){
-        return name;
-    }
-    
 }    

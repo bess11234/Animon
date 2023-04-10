@@ -5,11 +5,4 @@ public class PotionStaminaSmall extends Item {
     public void useItem(Animon animon) {
         animon.stamina += animon.maxStamina*0.3;
     }
-    public String getName(){
-        return name;
-    }
-    public int getPrice(){
-        return price;
-    }
-    
 }

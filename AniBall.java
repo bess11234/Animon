@@ -1,8 +1,16 @@
 public class AniBall extends Item {
-    private String name = "Aniball";
-    private int price = 150;
-    @Override
+
+    public AniBall(){
+        name = "Aniball";
+        price = 150;
+    }
+    
     public void useItem(Player player, Animon animon) {
         player.setAnimals(animon);
     }  
+
+    @Override
+    public void useItem(Animon animon) {
+        
+    }
 }

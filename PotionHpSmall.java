@@ -1,3 +1,4 @@
+
 public class PotionHpSmall extends Item {
 
     public PotionHpSmall(){
@@ -7,6 +8,10 @@ public class PotionHpSmall extends Item {
     
     @Override
     public void useItem(Animon animon) {
-        animon.hp += animon.maxHp*0.3;
+        if(animon.hp < animon.maxHp){
+            animon.hp += animon.maxHp*0.3;
+            if(animon.hp > animon.maxHp){animon.hp = animon.maxHp;}
+        }
+        else{System.out.println("Your HP are full.");}    
     }
 }

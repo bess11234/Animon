@@ -4,7 +4,7 @@ public abstract class Animon implements Attackable{
     protected int level;
     protected int hp;
     protected static int maxStamina;
-    protected static int maxHp;
+    protected int maxHp;
     protected static int maxExp;
     protected int stamina;
     protected int baseAtk;

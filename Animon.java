@@ -13,6 +13,7 @@ public abstract class Animon implements Attackable{
     protected HashMap skill;
     
     public Animon(int level){
+        this.skill = new HashMap();
         this.level = level;
         maxStamina = level*5;
         stamina = maxStamina;
@@ -94,5 +95,10 @@ public abstract class Animon implements Attackable{
         else{
             System.out.println("Your stamina are not enough.");
         }
+    }
+    public void printInfo(){
+        System.out.println(this.name+"LV."+this.level
+                +"MaxHP"+this.maxHp+"MaxStamina"+this.maxStamina
+                +"skill"+this.skill.entrySet());
     }
 }

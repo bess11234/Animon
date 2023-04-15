@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 public class Player {
     private Animon animals[] = new Animon[3];
-    private double money;
+    private int money;
     private ArrayList<Item> inventory;
     private int count_animals;
     private int highestLevel;
 
     public Player() {
         this.animals = new Animon[3];
-        this.money = 0.0;
+        this.money = 100;
         //this.inventory = new ArrayList<Item>();
         this.count_animals = 0;
         this.highestLevel = 0;
@@ -18,11 +18,19 @@ public class Player {
         this.money -= item.getCost();
         this.inventory.add(item);
     }
-
-    public double getMoney() {
+    
+    public void setMoney(int money) {
+        if (money >= 0) {
+            this.money = money;
+        } else {
+            System.out.println("Invalid amount. Money can't be less than 0.");
+        }
+    }
+    
+    public int getMoney() {
         return this.money;
     }
-
+    
     public ArrayList<Item> getInventory() {
         return this.inventory;
     }

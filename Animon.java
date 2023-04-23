@@ -20,6 +20,16 @@ public abstract class Animon implements Attackable{
         maxExp = level*5;
         exp = 0;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
     
     public void dead(){
         //wait for player

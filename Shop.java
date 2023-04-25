@@ -2,8 +2,12 @@ public class Shop {
     private Item[] itemShop;
     
     public void sellItem(Player player, int num){
-        player.getInventory().add(itemShop[num]);
+        if (player.getMoney() >= itemShop[num].getPrice() ){
+            player.setMoney(player.getMoney() - itemShop[num].getPrice());
+            player.buyItem(itemShop[num]);
+        }
     }
+
     public Shop(){
         itemShop = new Item[5];
 
@@ -13,6 +17,9 @@ public class Shop {
         itemShop[3] = new PotionStaminaBig();
         itemShop[4] = new AniBall();
     }
-    
+
+    public Item[] getItemShop() {
+        return itemShop;
+    }
 }
 

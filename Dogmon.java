@@ -1,11 +1,19 @@
 
+import java.awt.Image;
+import java.io.Serializable;
+import javax.swing.ImageIcon;
+
+
 public class Dogmon extends Animon{
+    static Image image = new ImageIcon("Monster_image/dog.png").getImage();
+    
     public Dogmon(int level){
         super(level);
         name = "Tomleng";
         maxHp = level*10;
         hp = maxHp;
         baseAtk = level*2;
+        
         skill.put("Bark", 1.5);
         skill.put("Bite", 2);
         skill.put("Headbud", 3);
@@ -23,5 +31,8 @@ public class Dogmon extends Animon{
             baseAtk = level*2;
         }
         else{exp += atked.level*5;}
+    }
+    public Image getImage(){
+        return Dogmon.image;
     }
 }

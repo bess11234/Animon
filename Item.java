@@ -1,4 +1,7 @@
-public abstract class Item {
+
+import java.io.Serializable;
+
+public abstract class Item{
     protected int price;
     protected String name;
 

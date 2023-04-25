@@ -1,7 +1,7 @@
 public class AniBall extends Item {
 
     public AniBall(){
-        name = "Aniball";
+        name = "AniBall";
         price = 150;
     }
     

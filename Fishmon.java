@@ -1,5 +1,10 @@
 
+import java.awt.Image;
+import javax.swing.ImageIcon;
+
+
 public class Fishmon extends Animon{
+    static Image image = new ImageIcon("Monster_image/fish.png").getImage();
     public Fishmon(int level){
         super(level);
         name = "Fisho";
@@ -10,6 +15,7 @@ public class Fishmon extends Animon{
         skill.put("Buble", 2);
         skill.put("Water Gun", 3);
         skill.put("Aqua Tail", 4);
+        
     }
     public void levelUp(Animon atked){
         if(exp+atked.level*5 >= maxExp){
@@ -23,5 +29,8 @@ public class Fishmon extends Animon{
             baseAtk = level*5;
         }
         else{exp += atked.level*5;}
+    }
+    public Image getImage(){
+        return Fishmon.image;
     }
 }

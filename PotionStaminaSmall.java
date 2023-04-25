@@ -1,4 +1,3 @@
-
 public class PotionStaminaSmall extends Item {
 
     public PotionStaminaSmall(){
@@ -7,10 +6,6 @@ public class PotionStaminaSmall extends Item {
     }
     @Override
     public void useItem(Animon animon) {
-        if(animon.stamina < animon.maxStamina){
-            animon.stamina += animon.maxStamina*0.3;
-            if(animon.stamina > animon.maxStamina){animon.stamina = animon.maxStamina;}
-        }
-        else{System.out.println("Your stamina are full.");}
+        animon.stamina += animon.maxStamina*0.3;
     }
 }

@@ -2,10 +2,10 @@ public class PotionStaminaSmall extends Item {
 
     public PotionStaminaSmall(){
         name = "Potion Stamina(S)";
-        price = 20;
+        price = 50;
     }
     @Override
     public void useItem(Animon animon) {
-        animon.stamina += animon.maxStamina*0.3;
+        animon.setStamina(animon.stamina + animon.maxStamina*0.3);
     }
 }

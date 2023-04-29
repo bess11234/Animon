@@ -1,7 +1,7 @@
 
 import java.io.Serializable;
 
-public abstract class Item{
+public abstract class Item implements Serializable{
     protected int price;
     protected String name;
 

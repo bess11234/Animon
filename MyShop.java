@@ -61,10 +61,10 @@ public class MyShop extends Shop {
     public static void setNum(int num) {
         MyShop.num = num;
         if (MyShop.num < 0) {
-            MyShop.num = 4;
+            MyShop.num = 0;
         }
         if (MyShop.num > 4) {
-            MyShop.num = 0;
+            MyShop.num = 4;
         }
         //else if (num > ) need Item size
     }

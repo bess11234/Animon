@@ -1,3 +1,6 @@
+
+import java.util.Random;
+
 public class AniBall extends Item {
 
     public AniBall(){
@@ -5,9 +8,24 @@ public class AniBall extends Item {
         price = 150;
     }
     
-    public void useItem(Player player, Animon animon) {
-        player.setAnimals(animon);
-    }  
+    public boolean useItem(Player player, Animon animon) {
+        int num = 0;
+        if ((animon.hp/animon.maxHp) <= 0.1){
+            num = new Random().nextInt(0, 10);
+            if (num <= 8){
+                //player.setAnimals(animon, player.getCountAnimals());
+                return true;
+            }
+        }
+        else if ((animon.hp/animon.maxHp) <= 0.5){
+            num = new Random().nextInt(0, 10);
+            if (num <= 5){
+                //player.setAnimals(animon, player.getCountAnimals());
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public void useItem(Animon animon) {

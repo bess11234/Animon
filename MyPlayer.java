@@ -75,45 +75,27 @@ public class MyPlayer extends Player{
         rect_right.y = rect.y;
         rect_right.height = rect.height;
 
-        /*if (((hitbox.x >= rect.x && hitbox.x <= rect.x+rect.width) && (hitbox.y >= rect.y && hitbox.y <= rect.y+rect.height) ||
-             (hitbox.x+hitbox.width >= rect.x && hitbox.x+hitbox.width <= rect.x+rect.width) && (hitbox.y+hitbox.height >= rect.y && hitbox.y+hitbox.height <= rect.y+rect.height)) && remem == null){
-            System.out.println("hitted");
-            System.out.println(count++);
-            speed = 0;
-            remem = image;
-            this.my_y += hitbox.y - this.my_y - 20;
-        }*/
-        //this.setMy_x(hitbox.x - hitbox.width);
-        //this.setMy_y(hitbox.y - hitbox.height*2);
         if (hitbox.intersects(rect_up)) {
             this.setMy_y(this.getMy_y()-speed);
-//            this.setMy_y(rect.y - 48 -1);
             return true;
         }
         else if (hitbox.intersects(rect_right)) {
             this.setMy_x(this.getMy_x()+speed);
-//            this.setMy_x(rect.x + 34 +1);
             return true;
         }
         else if (hitbox.intersects(rect_left)) {
             this.setMy_x(this.getMy_x()-speed);
-//            this.setMy_x(rect.x - 32 -1);
             return true;
         }
         else if (hitbox.intersects(rect_down)) {
             this.setMy_y(this.getMy_y()+speed);
-//            this.setMy_y(rect.y + 18 +1);
             return true;
         }
-//        System.out.println(hitbox.x + " " + hitbox.y + " " + hitbox.width + " " + hitbox.height);
-//        System.out.println(rect.x + " " + rect.y + " " + rect.width + " " + rect.height);
-//        System.out.println(this.getMy_x() + " " + this.getMy_y());
         return false;
     }
 
     public void movement(MyController ct) {
-        //System.out.println(ct);
-        //System.out.println(this.getMy_x() + " " + this.getMy_y());
+
         if (ct.down) {
             this.setImage(animation[0]);
             this.setMy_y(my_y + speed);

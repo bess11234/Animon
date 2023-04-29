@@ -6,7 +6,7 @@ public class PotionStaminaBig extends Item {
     }
     @Override
     public void useItem(Animon animon) {
-        animon.stamina += animon.maxStamina*0.7;
+        animon.setStamina(animon.stamina + animon.maxStamina*0.7);
     }
     
 }

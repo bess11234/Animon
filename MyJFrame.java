@@ -16,13 +16,12 @@ public class MyJFrame extends JFrame{
     public MyJFrame(){
         super("Animon");
         try{
-            panel = new MyJPanel();
+            panel = new MyJPanel(this);
         }catch(ClassNotFoundException ex){ex.printStackTrace();}
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //this.setSize(1360, 768);
         this.add(panel);
         this.pack();
-        this.addWindowListener(panel);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

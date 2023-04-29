@@ -5,9 +5,9 @@ import java.io.Serializable;
 public class Player implements Serializable{
     private Animon animals[] = new Animon[3];
     private int money;
-    private Item[][] inventory;
+    private transient Item[][] inventory;
     private int count_animals;
-    private int highestLevel;
+    private static int highestLevel;
     private int count_potionHPS = 0;
     private int count_potionHPL = 0;
     private int count_potionSTS = 0;
@@ -16,10 +16,30 @@ public class Player implements Serializable{
 
     public Player() {
         this.animals = new Animon[3];
-        this.money = 100;
-        this.inventory = new Item[5][99];
+        this.money = 500;
+        this.inventory = new Item[5][100];
         this.count_animals = 0;
-        this.highestLevel = 0;
+        highestLevel = 1;
+    }
+    
+    public void update(){
+        this.inventory = new Item[5][100];
+        for (int i =0; i < count_potionHPS;i++){
+            this.inventory[0][i] = new PotionHpSmall();
+        }
+        for (int i =0; i < count_potionHPL;i++){
+            this.inventory[1][i] = new PotionHpBig();
+        }
+        for (int i =0; i < count_potionSTS;i++){
+            this.inventory[2][i] = new PotionStaminaSmall();
+        }
+        for (int i =0; i < count_potionSTL;i++){
+            this.inventory[3][i] = new PotionStaminaBig();
+        }
+        for (int i =0; i < count_aniball;i++){
+            this.inventory[4][i] = new AniBall();
+        }
+        highestLevel();
     }
 
     public void buyItem(Item item) {
@@ -88,8 +108,10 @@ public class Player implements Serializable{
 
     public void setAnimals(Animon animals, int num) {
         if (num != 3){
+            if (this.animals[num] == null){
+                this.count_animals += 1;
+            }
             this.animals[num] = animals;
-            this.count_animals += 1;
         }
         highestLevel();
     }
@@ -102,16 +124,16 @@ public class Player implements Serializable{
         return this.count_animals;
     }
     
-    private void highestLevel() {
+    public void highestLevel() {
         for (int i = 0; i < this.count_animals; i++) {
-            if (this.animals[i].level > this.highestLevel) { // && this.animals[i] != null???
-                this.highestLevel = this.animals[i].level;
+            if (this.animals[i].level > highestLevel) { // && this.animals[i] != null???
+                highestLevel = this.animals[i].level;
             }
         }
     }
     
-    public int getHighestLevel() {
-        return this.highestLevel;
+    public static int getHighestLevel() {
+        return highestLevel;
     }
 
     public int getCount_animals() {

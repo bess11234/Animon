@@ -25,6 +25,7 @@ public class MyEnemy implements Runnable {
     private final int FPS = 60;
     private int speed;
     private String[] animation = new String[4];
+    private boolean re_animon;
 
     private int move;
     // It need to be in class Animon
@@ -33,29 +34,61 @@ public class MyEnemy implements Runnable {
     public Animon getAnimon() {
         return animon;
     }
-    
 
     public MyEnemy(int x, int y, Animon animon) {
         speed = 3;
         my_width = 50;
         my_height = 50;
-        moveset1 = new ArrayList<Integer>();
-        moveset1.add(0);moveset1.add(1);moveset1.add(5);moveset1.add(7);
-        moveset2 = new ArrayList<Integer>();moveset2.add(0);moveset2.add(2);moveset2.add(6);moveset2.add(8);
-        moveset3 = new ArrayList<Integer>();moveset3.add(0);moveset3.add(3);moveset3.add(5);moveset3.add(6);
-        moveset4 = new ArrayList<Integer>();moveset4.add(0);moveset4.add(4);moveset4.add(7);moveset4.add(8);
+        re_animon = true;
 
-        moveset5 = new ArrayList<Integer>();moveset5.add(0);moveset5.add(5);moveset5.add(1);moveset5.add(3);
-        moveset6 = new ArrayList<Integer>();moveset6.add(0);moveset6.add(6);moveset6.add(2);moveset6.add(3);
-        moveset7 = new ArrayList<Integer>();moveset7.add(0);moveset7.add(7);moveset7.add(1);moveset7.add(4);
-        moveset8 = new ArrayList<Integer>();moveset8.add(0);moveset8.add(8);moveset8.add(2);moveset8.add(4);
+        moveset1 = new ArrayList<Integer>();
+        moveset1.add(0);
+        moveset1.add(1);
+        moveset1.add(5);
+        moveset1.add(7);
+        moveset2 = new ArrayList<Integer>();
+        moveset2.add(0);
+        moveset2.add(2);
+        moveset2.add(6);
+        moveset2.add(8);
+        moveset3 = new ArrayList<Integer>();
+        moveset3.add(0);
+        moveset3.add(3);
+        moveset3.add(5);
+        moveset3.add(6);
+        moveset4 = new ArrayList<Integer>();
+        moveset4.add(0);
+        moveset4.add(4);
+        moveset4.add(7);
+        moveset4.add(8);
+
+        moveset5 = new ArrayList<Integer>();
+        moveset5.add(0);
+        moveset5.add(5);
+        moveset5.add(1);
+        moveset5.add(3);
+        moveset6 = new ArrayList<Integer>();
+        moveset6.add(0);
+        moveset6.add(6);
+        moveset6.add(2);
+        moveset6.add(3);
+        moveset7 = new ArrayList<Integer>();
+        moveset7.add(0);
+        moveset7.add(7);
+        moveset7.add(1);
+        moveset7.add(4);
+        moveset8 = new ArrayList<Integer>();
+        moveset8.add(0);
+        moveset8.add(8);
+        moveset8.add(2);
+        moveset8.add(4);
         this.move = 8;
         my_x = x;
         my_y = y;
         origin_x = x;
         origin_y = y;
         this.animon = animon;
-        
+
         hitbox.x = my_x + 16;
         hitbox.y = my_y + 16 * 2;
         hitbox.width = 16;
@@ -63,8 +96,12 @@ public class MyEnemy implements Runnable {
         //this.animon = animon;
         //this.setBackground(Color.red);
     }
-    
+
     public boolean hitted(Rectangle rect) {
+        hitbox.x = my_x + 16;
+        hitbox.y = my_y + 16 * 2;
+        hitbox.width = 16;
+        hitbox.height = 16;
 
         rect_up.x = rect.x;
         rect_up.width = rect.width;
@@ -86,43 +123,28 @@ public class MyEnemy implements Runnable {
         rect_right.y = rect.y;
         rect_right.height = rect.height;
 
-        /*if (((hitbox.x >= rect.x && hitbox.x <= rect.x+rect.width) && (hitbox.y >= rect.y && hitbox.y <= rect.y+rect.height) ||
-             (hitbox.x+hitbox.width >= rect.x && hitbox.x+hitbox.width <= rect.x+rect.width) && (hitbox.y+hitbox.height >= rect.y && hitbox.y+hitbox.height <= rect.y+rect.height)) && remem == null){
-            System.out.println("hitted");
-            System.out.println(count++);
-            speed = 0;
-            remem = image;
-            this.my_y += hitbox.y - this.my_y - 20;
-        }*/
-        //this.setMy_x(hitbox.x - hitbox.width);
-        //this.setMy_y(hitbox.y - hitbox.height*2);
         if (hitbox.intersects(rect_up)) {
-            this.setMy_y(this.getMy_y()-speed);
-//            this.setMy_y(rect.y - 48 -1);
+            this.setMy_y(this.getMy_y() - speed);
+            return true;
+        } else if (hitbox.intersects(rect_right)) {
+            this.setMy_x(this.getMy_x() + speed);
+            return true;
+        } else if (hitbox.intersects(rect_left)) {
+            this.setMy_x(this.getMy_x() - speed);
+            return true;
+        } else if (hitbox.intersects(rect_down)) {
+            this.setMy_y(this.getMy_y() + speed);
             return true;
         }
-        else if (hitbox.intersects(rect_right)) {
-            this.setMy_x(this.getMy_x()+speed);
-//            this.setMy_x(rect.x + 34 +1);
-            return true;
-        }
-        else if (hitbox.intersects(rect_left)) {
-            this.setMy_x(this.getMy_x()-speed);
-//            this.setMy_x(rect.x - 32 -1);
-            return true;
-        }
-        else if (hitbox.intersects(rect_down)) {
-            this.setMy_y(this.getMy_y()+speed);
-//            this.setMy_y(rect.y + 18 +1);
-            return true;
-        }
-//        System.out.println(hitbox.x + " " + hitbox.y + " " + hitbox.width + " " + hitbox.height);
-//        System.out.println(rect.x + " " + rect.y + " " + rect.width + " " + rect.height);
-//        System.out.println(this.getMy_x() + " " + this.getMy_y());
         return false;
     }
 
     public void movement() {
+        if (isDead()){
+            speed = 0;
+            my_x = 9999;
+            my_y = 9999;
+        }
         if (move == 1 || move == 5 || move == 7) {
             this.setMy_x(my_x - speed);
         }
@@ -142,6 +164,7 @@ public class MyEnemy implements Runnable {
         } else {
             speed = 3;
         }
+
         if (move == 1) {
             move = moveset1.get(new Random().nextInt(moveset1.size()));
         } else if (move == 2) {
@@ -159,11 +182,7 @@ public class MyEnemy implements Runnable {
         } else if (move == 8) {
             move = moveset8.get(new Random().nextInt(moveset8.size()));
         }
-        
-        hitbox.x = my_x + 16;
-        hitbox.y = my_y + 16 * 2;
-        hitbox.width = 16;
-        hitbox.height = 16;
+
     }
 
     public Rectangle getHitbox() {
@@ -171,29 +190,33 @@ public class MyEnemy implements Runnable {
     }
 
     public void reposition(int maxLevel) {
-        if (animon instanceof Dogmon) {
-            animon = new Dogmon(new Random().nextInt(maxLevel, maxLevel + 4));
-        }else if(animon instanceof Fishmon){
-            animon = new Fishmon(new Random().nextInt(maxLevel, maxLevel + 4));
-        }else if(animon instanceof Birdmon){
-            animon = new Birdmon(new Random().nextInt(maxLevel, maxLevel + 4));
+        int limit = maxLevel - 2;
+        if (limit < 1) {
+            limit = 1;
         }
-        
+        if (animon instanceof Dogmon) {
+            animon = new Dogmon(new Random().nextInt(limit, maxLevel + 2));
+        } else if (animon instanceof Fishmon) {
+            animon = new Fishmon(new Random().nextInt(limit, maxLevel + 2));
+        } else if (animon instanceof Birdmon) {
+            animon = new Birdmon(new Random().nextInt(limit, maxLevel + 2));
+        }
+
         this.my_x = origin_x;
         this.my_y = origin_y;
     }
 
     public void setMy_x(int x) {
         my_x = x;
-        if (my_x + my_width > origin_x + my_width + 50) {
+        if (my_x + my_width > origin_x + my_width + 50 && !isDead()) {
             my_x = origin_x + my_width + 50 - my_width;
-        } else if (my_x < origin_x - 50) {
+        } else if (my_x < origin_x - 50 && !isDead()) {
             my_x = origin_x - 50;
         }
-        
-        if (my_x < 0){
+
+        if (my_x < 0 && !isDead()) {
             my_x = 0;
-        }else if(my_x+my_width > 1360){
+        } else if (my_x + my_width > 1360 && !isDead()) {
             my_x = 1360 - my_width;
         }
 
@@ -205,15 +228,15 @@ public class MyEnemy implements Runnable {
 
     public void setMy_y(int y) {
         my_y = y;
-        if (my_y + my_height > origin_y + my_height + 50) {
+        if (my_y + my_height > origin_y + my_height + 50 && !isDead()) {
             my_y = origin_y + my_height + 50 - my_height;
-        } else if (my_y < origin_y - 50) {
+        } else if (my_y < origin_y - 50 && !isDead()) {
             my_y = origin_y - 50;
         }
-        
-        if(my_y < 0){
+
+        if (my_y < 0 && !isDead()) {
             my_y = 0;
-        }else if(my_y + my_height > 768){
+        } else if (my_y + my_height > 768 && !isDead()) {
             my_y = 768 - my_height;
         }
 
@@ -238,13 +261,17 @@ public class MyEnemy implements Runnable {
     public int getMy_Width() {
         return my_width;
     }
-    
-    public int getLevel(){
+
+    public int getLevel() {
         return animon.level;
     }
 
     public Image getImage() {
         return animon.getImage();
+    }
+
+    public boolean isDead() {
+        return animon.dead_before;
     }
 
     public void run() {
@@ -253,16 +280,36 @@ public class MyEnemy implements Runnable {
         while (Thread.currentThread() != null) {
             double drawing = 50;
             movement();
+
             try {
                 //double drawing = nextTime - System.currentTimeMillis();
-                if (!MyMenu.isVisible() && !MyShop.isVisible() && !MyBattle.isVisible()){drawing = 50;speed=3;}else{speed = 0;}
+                if (!MyMenu.isVisible() && !MyShop.isVisible() && !MyBattle.isVisible()) {
+                    drawing = 50;
+                    speed = 3;
+                } else {
+                    speed = 0;
+                }
+                
                 if (drawing < 0) {
                     drawing = 0;
                 }
+                
                 if (move == 0) {
                     drawing = 500;
                 }
+                
+                if (isDead()){
+                    drawing = 5000;
+                }
                 Thread.currentThread().sleep((long) drawing);
+                
+                if (isDead()){
+                    re_animon = !re_animon;
+                    
+                    if (re_animon){
+                        this.reposition(Player.getHighestLevel());
+                    }
+                }
 
                 nextTime += drawTime;
 

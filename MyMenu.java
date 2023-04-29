@@ -1,5 +1,9 @@
 
 import java.awt.*;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,8 +21,10 @@ public class MyMenu {
     private static Rectangle menuPanel = new Rectangle();
     private static int item_num;
     private static int animon_num;
-    private static boolean item = false;
-    private static boolean use_item = false;
+    private static boolean item;
+    private static boolean use_item;
+    private static boolean save;
+    private static boolean exit;
 
     ;
 
@@ -28,7 +34,7 @@ public class MyMenu {
 
     public static void setVisible(boolean visible) {
         MyMenu.visible = visible;
-        
+
         menuPanel.x = 1360 / 4;
         menuPanel.y = 768 / 4;
         menuPanel.width = 1360 / 2;
@@ -45,20 +51,21 @@ public class MyMenu {
         MyMenu.num = num;
         if (!item && !use_item) {
             if (MyMenu.num < 0) {
-                MyMenu.num = 2;
-            } else if (MyMenu.num > 2) {
                 MyMenu.num = 0;
+            } else if (MyMenu.num > 2) {
+                MyMenu.num = 2;
             }
         }
 
     }
 
     public static void selected(MyController ct, Player player) {
-        
+
         if (item) {
 
             if (ct.button_x && time == 0 && !use_item) {
                 item = false;
+                num = 0;
                 time = 2;
             }
 
@@ -70,49 +77,51 @@ public class MyMenu {
             }
 
             if (use_item) {
-                
+
                 if (ct.button_x && time == 0) {
                     use_item = false;
                     item_num = 0;
+                    num = 0;
                     time = 2;
 
                 } else if (ct.button_z && time == 0) {
 
                     switch (item_num) {
                         case 0 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPS()-1], player);
-                            
+                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPS() - 1], player, null);
+
                         }
                         case 1 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPL()-1], player);
-                            
+                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPL() - 1], player, null);
+
                         }
                         case 2 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTS()-1], player);
-                            
+                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTS() - 1], player, null);
+
                         }
                         case 3 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTL()-1], player);
-                            
+                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTL() - 1], player, null);
+
                         }
                         default -> {
                         }
                     }
                     item_num = 0;
                     use_item = false;
+                    num = 0;
                     time = 2;
 
                 }
 
                 if (ct.up) {
                     MyMenu.setNum(num - 1);
-                    if (num < 0){
-                        num = player.getCountAnimals() - 1;
+                    if (num < 0) {
+                        num = 0;
                     }
                 } else if (ct.down) {
                     MyMenu.setNum(num + 1);
-                    if (num > player.getCountAnimals() - 1){
-                        num = 0;
+                    if (num > player.getCountAnimals() - 1) {
+                        num = player.getCountAnimals() - 1;
                     }
                 }
 
@@ -147,12 +156,29 @@ public class MyMenu {
         } else {
             if (ct.button_x && time == 0) {
                 visible = false;
+                num = 0;
             }
 
-            if (ct.button_z && num == 0) {
+            if (ct.button_z && num == 0) { // Item
                 item = true;
                 time = 2;
             }
+
+            if (ct.button_z && num == 1) { // Save
+                save = true;
+                try (FileOutputStream file = new FileOutputStream("save/save1.dat"); BufferedOutputStream file2 = new BufferedOutputStream(file); ObjectOutputStream out = new ObjectOutputStream(file2);) {
+                    out.writeObject(player);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                time = 8;
+            }
+            
+            if (ct.button_z && num == 2){ //Exit
+                MyJPanel.getFrame().dispose();
+                System.exit(0);
+            }
+
             if (ct.up) {
                 MyMenu.setNum(num - 1);
             } else if (ct.down) {
@@ -168,14 +194,14 @@ public class MyMenu {
 
     public static void setTime(int time) {
         MyMenu.time = time;
-        if (MyMenu.time < 0){
+        if (MyMenu.time < 0) {
             MyMenu.time = 0;
         }
     }
 
     public static void paint(Graphics g, Player player) {
         Graphics2D g2D = (Graphics2D) g;
-        g2D.setFont(new Font("Dialog", 12, 16));
+        g2D.setFont(new Font("Dialog", 12, 15));
 
         g2D.setPaint(new Color(254, 147, 7));
         g2D.fillRect(menuPanel.x, menuPanel.y, menuPanel.width, menuPanel.height);
@@ -195,24 +221,26 @@ public class MyMenu {
 
         g2D.drawString("Item", menuPanel.x + menuPanel.width / 4 / 2 - 10 - "Item".length(), menuPanel.y + 35);
         g2D.drawString("Save", menuPanel.x + menuPanel.width / 4 / 2 - 13 - "Save".length(), menuPanel.y + 35 + 30 * 1);
-        g2D.drawString("Game End", menuPanel.x + menuPanel.width / 4 / 2 - 10 - 20 - "Game End".length(), menuPanel.y + 35 + 30 * 2);
-        //g2D.drawRect(menuPanel.x+10, menuPanel.y+10, menuPanel.width/4/2 - 10, menuPanel.height - 20);
-        g2D.drawRect(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10, menuPanel.width - menuPanel.width / 4 - 10, (menuPanel.height - 20) / 3);
-        for (int i = 0; i < player.getCountAnimals(); i++) {
+        g2D.drawString("Game End", menuPanel.x + menuPanel.width / 4 / 2 - 10 - 18 - "Game End".length() / 2, menuPanel.y + 35 + 30 * 2);
 
-            g2D.drawString("Level : " + player.getAnimals()[i].level + "", menuPanel.x + menuPanel.width / 4 + 15, menuPanel.y + 10 + 25 + ((menuPanel.height - 20) / 3) * i);
-            g2D.drawImage(player.getAnimals()[i].getImage(), menuPanel.x + menuPanel.width / 4 + 20, menuPanel.y + 10 + 30 + ((menuPanel.height - 20) / 3) * i, null);
-            g2D.drawString(player.getAnimals()[i].getName() + "", menuPanel.x + menuPanel.width / 4 + 20 + 100, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
-            g2D.drawString("HP : " + player.getAnimals()[i].hp + "/" + player.getAnimals()[i].maxHp + "", menuPanel.x + menuPanel.width / 4 + 20 + 200, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
-            g2D.drawString("Stamina : " + player.getAnimals()[i].stamina + "/" + player.getAnimals()[i].maxStamina + "", menuPanel.x + menuPanel.width / 4 + 20 + 325, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
-            g2D.drawString("Exp : " + player.getAnimals()[i].exp + "/" + player.getAnimals()[i].maxExp + "", menuPanel.x + menuPanel.width / 4 + 15, menuPanel.y + 10 + 25 + 75 + ((menuPanel.height - 20) / 3) * i);
+        g2D.drawLine(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10 + (menuPanel.height - 20) / 3, menuPanel.x + menuPanel.width / 4 + menuPanel.width - menuPanel.width / 4 - 10, menuPanel.y + 10 + (menuPanel.height - 20) / 3);
+        for (int i = 0; i < player.getCountAnimals(); i++) {
+            if (player.getAnimals()[i] != null) {
+                g2D.drawString("Level : " + player.getAnimals()[i].level + "", menuPanel.x + menuPanel.width / 4 + 15, menuPanel.y + 10 + 25 + ((menuPanel.height - 20) / 3) * i);
+                g2D.drawImage(player.getAnimals()[i].getImage(), menuPanel.x + menuPanel.width / 4 + 20, menuPanel.y + 10 + 30 + ((menuPanel.height - 20) / 3) * i, null);
+                g2D.drawString(player.getAnimals()[i].getName() + "", menuPanel.x + menuPanel.width / 4 + 20 + 100, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
+                g2D.drawString("HP : " + player.getAnimals()[i].hp + "/" + player.getAnimals()[i].maxHp + "", menuPanel.x + menuPanel.width / 4 + 20 + 200, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
+                g2D.drawString("Stamina : " + player.getAnimals()[i].stamina + "/" + player.getAnimals()[i].maxStamina + "", menuPanel.x + menuPanel.width / 4 + 20 + 325, menuPanel.y + 10 + 30 + 35 + ((menuPanel.height - 20) / 3) * i);
+                g2D.drawString("Exp : " + player.getAnimals()[i].exp + "/" + player.getAnimals()[i].maxExp + "", menuPanel.x + menuPanel.width / 4 + 15, menuPanel.y + 10 + 25 + 75 + ((menuPanel.height - 20) / 3) * i);
+            }
 
         }
 
-        g2D.drawRect(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10 + (menuPanel.height - 20) / 3, menuPanel.width - menuPanel.width / 4 - 10, (menuPanel.height - 20) / 3);
-        g2D.drawRect(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10 + ((menuPanel.height - 20) / 3) * 2, menuPanel.width - menuPanel.width / 4 - 10, (menuPanel.height - 20) / 3);
+        g2D.drawLine(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10 + (menuPanel.height - 20) / 3 + (menuPanel.height - 20) / 3, menuPanel.x + menuPanel.width / 4 + menuPanel.width - menuPanel.width / 4 - 10, menuPanel.y + 10 + (menuPanel.height - 20) / 3 + (menuPanel.height - 20) / 3);
         g2D.setFont(new Font("Dialog", 12, 12));
 
+        g2D.setPaint(Color.white);
+        g2D.setStroke(new BasicStroke(2));
         if (!item) {
             switch (num) {
                 case 0 ->
@@ -239,18 +267,19 @@ public class MyMenu {
 
             g2D.setPaint(new Color(212, 135, 97));
             g2D.drawString("AniBall                        : " + player.getCount_aniball(), menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 3);
-            g2D.setPaint(new Color(128, 50, 11));
+            g2D.setPaint(Color.white);
+            g2D.setStroke(new BasicStroke(2));
 
             if (!use_item) {
                 switch (num) {
                     case 0 ->
-                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8 + 20, 25 - 4);
                     case 1 ->
-                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8 + 20, 25 - 4);
                     case 2 ->
-                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8 + 20, 25 - 4);
                     case 3 ->
-                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8 + 20, 25 - 4);
                 }
             } else {
                 switch (num) {
@@ -262,10 +291,26 @@ public class MyMenu {
                         g2D.drawRect(menuPanel.x + menuPanel.width / 4 + 5, menuPanel.y + 10 + ((menuPanel.height - 20) / 3) * num + 5, menuPanel.width - menuPanel.width / 4 - 10 - 10, (menuPanel.height - 20) / 3 - 10);
                 }
             }
+            g2D.setStroke(new BasicStroke(1));
 
+        }
+        
+        if (save && time > 0){
+            g2D.setPaint(new Color(254, 147, 7));
+            g2D.fillRect(1360 / 2 - 1360 / 8 +50, 768 / 2 - 768 / 8 +50, 1360 / 4 -100, 768 / 4 -100);
+            g2D.setPaint(new Color(128, 59, 0));
+            g2D.fillRect((1360 / 2 - 1360 / 8) + 5 +50, (768 / 2 - 768 / 8) + 5 +50, 1360 / 4 - 10 -100, 768 / 4 - 10 -100);
+            g2D.setPaint(new Color(255, 210, 133));
+            g2D.fillRect((1360 / 2 - 1360 / 8) + 10 +50, (768 / 2 - 768 / 8) + 10 +50, 1360 / 4 - 20 -100, 768 / 4 - 20 -100);
+            g2D.setPaint(new Color(128, 50, 11));
+            
+            g2D.setFont(new Font("Dialog", 12,20));
+            g2D.drawString("Saved", (1360 / 2 - 1360 / 8) + 10 +50 + (1360/4-20-100)/2 - 27, (768 / 2 - 768 / 8) + 10 +50 + (768 / 4 - 20 -100)/2 + 5);
+            g2D.setFont(new Font("Dialog", 12, 12));
+        }else{
+            save = false;
         }
 
     }
-    
 
 }

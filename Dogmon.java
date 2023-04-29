@@ -3,36 +3,49 @@ import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
+public class Dogmon extends Animon {
 
-public class Dogmon extends Animon{
     static Image image = new ImageIcon("Monster_image/dog.png").getImage();
-    
-    public Dogmon(int level){
+    String[] listSkill;
+
+    public Dogmon(int level) {
         super(level);
         name = "Tomleng";
-        maxHp = level*10;
+        maxHp = level * 12;
         hp = maxHp;
-        baseAtk = level*2;
-        
-        skill.put("Bark", 1.5);
-        skill.put("Bite", 2);
-        skill.put("Headbud", 3);
+        baseAtk = level * 2;
+        maxStamina = level * 7;
+        stamina = maxStamina;
         skill.put("Quick Attack", 4);
+        skill.put("Headbud", 3);
+        skill.put("Bite", 2);
+        skill.put("Bark", 1);
+        listSkill = new String[4];
+        listSkill[0] = "Bark";
+        listSkill[1] = "Bite";
+        listSkill[2] = "Headbud";
+        listSkill[3] = "Quick Attack";
     }
-    public void levelUp(Animon atked){
-        if(exp+atked.level*5 >= maxExp){
-            exp = exp+atked.level*5-maxExp;
-            level++;
-            maxStamina = level*5;
-            stamina = maxStamina;
-            maxExp = level*5;
-            maxHp = level*10;
+
+    public boolean levelUp(Animon atked) {
+        if (super.levelUp(atked)) {
+            maxHp = level * 12;
             hp = maxHp;
-            baseAtk = level*2;
+            baseAtk = level * 2;
+
+            maxStamina = level * 7;
+            stamina = maxStamina;
         }
-        else{exp += atked.level*5;}
+        return false;
+
     }
-    public Image getImage(){
+
+    public Image getImage() {
         return Dogmon.image;
+    }
+
+    @Override
+    public String[] getListSkill() {
+        return listSkill;
     }
 }

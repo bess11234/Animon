@@ -426,6 +426,9 @@ public class MyBattle {
                     g2D.setPaint(new Color(255, 210, 133));
                     g2D.fillRect(menuPanel.x + 10 + menuPanel.width + 20 -10, menuPanel.y + 10 + (menuPanel.height/3)*0, 200 - 20, menuPanel.height/3 - 20);
                     g2D.setPaint(new Color(128, 50, 11));
+                    
+                    g2D.drawString("Level : "+enemy.level, menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*0 + (menuPanel.height/3 - 20)/2 -25 - 5);
+                    g2D.drawImage(enemy.getImage(), menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*0 + (menuPanel.height/3 - 20)/2 -25, null);
                 }
                 case 1 ->{
                     g2D.drawRect(menuPanel.x + 20, menuPanel.y + 20 + ((menuPanel.height - 20) / 3) * 1, (menuPanel.width - 40), (menuPanel.height) / 3 - 30);
@@ -437,6 +440,8 @@ public class MyBattle {
                     g2D.setPaint(new Color(255, 210, 133));
                     g2D.fillRect(menuPanel.x + 10 + menuPanel.width + 20 -10, menuPanel.y + 10 + (menuPanel.height/3)*1, 200 - 20, menuPanel.height/3 - 20);
                     g2D.setPaint(new Color(128, 50, 11));
+                    g2D.drawString("Level : "+enemy.level, menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*1 + (menuPanel.height/3 - 20)/2 -25 - 5);
+                    g2D.drawImage(enemy.getImage(), menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*1 + (menuPanel.height/3 - 20)/2 -25, null);
                 }
                 case 2 ->{
                     g2D.drawRect(menuPanel.x + 20, menuPanel.y + 20 + ((menuPanel.height - 20) / 3) * 2, (menuPanel.width - 40), (menuPanel.height) / 3 - 30);
@@ -448,7 +453,8 @@ public class MyBattle {
                     g2D.setPaint(new Color(255, 210, 133));
                     g2D.fillRect(menuPanel.x + 10 + menuPanel.width + 20 -10, menuPanel.y + 10 + (menuPanel.height/3)*2, 200 - 20, menuPanel.height/3 - 20);
                     g2D.setPaint(new Color(128, 50, 11));
-                    
+                    g2D.drawString("Level : "+enemy.level, menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*2 + (menuPanel.height/3 - 20)/2 -25 - 5);
+                    g2D.drawImage(enemy.getImage(), menuPanel.x + 10 + menuPanel.width + 20 -10 + (200-20)/2 -25, menuPanel.y + 10 + (menuPanel.height/3)*2 + (menuPanel.height/3 - 20)/2 -25, null);
                 }
             }
             g2D.setStroke(new BasicStroke(1));
@@ -501,7 +507,7 @@ public class MyBattle {
         } else {
             if (Deadall_enemy()){
                 end = true;
-                
+                enemy.dead = false;
                 save_money += enemy.dropMoney();
                 save_exp += enemy.level * 3;
                 player.setMoney(player.getMoney() + save_money);
@@ -654,6 +660,7 @@ public class MyBattle {
                 chose_fight = false;
                 num = 0;
             }
+            
             if (time == 0) {
                 if (ct.button_z && num == 0) {
                     turn_player = false;
@@ -789,6 +796,7 @@ public class MyBattle {
                         if (player.getCountAnimals() == 3) {
                             turn_player = true;
                             capture_animon = true;
+                            enemy.dead();
                         } else {
                             player.setAnimals(enemy, player.getCountAnimals());
                             capture_animon = false;

@@ -118,7 +118,7 @@ public abstract class Animon implements Attackable, Serializable {
 
     public void attacked(Animon attacker) {
         if (this.hp - attacker.baseAtk <= 0) {
-            System.out.println("Your animon are dead.");
+//            System.out.println("Your animon are dead.");
             this.dead();
             attacker.levelUp(this);
         } else {
@@ -130,7 +130,7 @@ public abstract class Animon implements Attackable, Serializable {
     public void attacked(Animon attacker, int damage) {
         if (this.hp - damage <= 0) {
             this.hp = 0;
-            System.out.println("Your animon are dead.");
+//            System.out.println("Your animon are dead.");
             this.dead();
             attacker.levelUp(this);
         } else {
@@ -161,7 +161,7 @@ public abstract class Animon implements Attackable, Serializable {
             this.stamina -= level * multi;
             atked.attacked(this, multi * this.baseAtk);
         } else {
-            System.out.println("Your stamina are not enough.");
+//            System.out.println("Your stamina are not enough.");
 
         }
     

@@ -18,7 +18,7 @@ import java.io.*;
 import java.util.Random;
 import javax.swing.*;
 
-public class MyJPanel extends JPanel implements Runnable{
+public class MyJPanel extends JPanel implements Runnable {
 
     private MyController ct;
     private Thread thread_main;
@@ -30,7 +30,14 @@ public class MyJPanel extends JPanel implements Runnable{
     private MyShop shop1, shop2, shop3, shop4;
     private Rectangle shopPanel, startPanel;
     private MyTile fence1, fence2, fence3, fence4;
-    private MyHitbox map2_hitbox1, map2_hitbox2, map2_hitbox3, map2_hitbox4, map2_hitbox5, map2_hitbox6, map2_hitbox7, map2_hitbox8, map2_hitbox9, map2_hitbox10, map2_hitbox11, map2_hitbox12, map2_hitbox13, map2_hitbox14, map2_hitbox15, map2_hitbox16, map2_hitbox17, map2_hitbox18, map2_hitbox19, map2_hitbox20, map2_hitbox21, map2_hitbox22, map2_hitbox23, map2_hitbox24, map2_hitbox25, map2_hitbox26;
+    private MyHitbox map2_hitbox1, map2_hitbox2, map2_hitbox3, map2_hitbox4, map2_hitbox5,
+            map2_hitbox6, map2_hitbox7, map2_hitbox8, map2_hitbox9, map2_hitbox10, map2_hitbox11,
+            map2_hitbox12, map2_hitbox13, map2_hitbox14, map2_hitbox15, map2_hitbox16, map2_hitbox17,
+            map2_hitbox18, map2_hitbox19, map2_hitbox20, map2_hitbox21, map2_hitbox22, map2_hitbox23,
+            map2_hitbox24, map2_hitbox25, map2_hitbox26, map4_hitbox1, map4_hitbox2, map4_hitbox3,
+            map4_hitbox4, map4_hitbox5, map4_hitbox6, map4_hitbox7, map4_hitbox8,
+            map4_hitboxfish1, map4_hitboxfish2, map4_hitboxfish3, map4_hitboxfish4;
+
     private Rectangle hitbox;
 
     private Animon[] enemy = new Animon[3];
@@ -100,6 +107,18 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 768 / 2 - 120;
         fence3.setHitbox2(hitbox);
 
+        fence4 = new MyTile(new ImageIcon("Map/fence_4.png").getImage(), 1360 / 2, 768 / 2);
+        hitbox.x = fence4.getX() + 40 + 25;
+        hitbox.y = fence4.getY() + 85 + 35 + 768 / 2 - 120 - 40;
+        hitbox.width = 1360 / 2 - 120;
+        hitbox.height = 50;
+        fence4.setHitbox1(hitbox);
+        hitbox.x = fence4.getX() + 34 + 25 + 1360 / 2 - 119;
+        hitbox.y = fence4.getY() + 80;
+        hitbox.width = 16;
+        hitbox.height = 768 / 2 - 120;
+        fence4.setHitbox2(hitbox);
+
         map2_hitbox1 = new MyHitbox(0, 68);
         hitbox.x = map2_hitbox1.getX();
         hitbox.y = map2_hitbox1.getY();
@@ -114,74 +133,74 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 235;
         map2_hitbox2.setHitbox(hitbox);
 
-        map2_hitbox3 = new MyHitbox(1360 / 2 - 65 + 45 - 10, 68 + 235 - 10 -6);
+        map2_hitbox3 = new MyHitbox(1360 / 2 - 65 + 45 - 10, 68 + 235 - 10 - 50);
         hitbox.x = map2_hitbox3.getX();
         hitbox.y = map2_hitbox3.getY();
         hitbox.width = 45 + 10;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox3.setHitbox(hitbox);
 
-        map2_hitbox4 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 1, 68 + 235 - 10 + 5 * 1-6);
+        map2_hitbox4 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 1, 68 + 235 - 10 + 5 * 1 - 50);
         hitbox.x = map2_hitbox4.getX();
         hitbox.y = map2_hitbox4.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox4.setHitbox(hitbox);
 
-        map2_hitbox5 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 2, 68 + 235 - 10 + 5 * 2-6);
+        map2_hitbox5 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 2, 68 + 235 - 10 + 5 * 2 - 50);
         hitbox.x = map2_hitbox5.getX();
         hitbox.y = map2_hitbox5.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox5.setHitbox(hitbox);
 
-        map2_hitbox6 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 3, 68 + 235 - 10 + 5 * 3-6);
+        map2_hitbox6 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 3, 68 + 235 - 10 + 5 * 3 - 50);
         hitbox.x = map2_hitbox6.getX();
         hitbox.y = map2_hitbox6.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox6.setHitbox(hitbox);
 
-        map2_hitbox7 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 4, 68 + 235 - 10 + 5 * 4-6);
+        map2_hitbox7 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 4, 68 + 235 - 10 + 5 * 4 - 50);
         hitbox.x = map2_hitbox7.getX();
         hitbox.y = map2_hitbox7.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox7.setHitbox(hitbox);
 
-        map2_hitbox8 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 5, 68 + 235 - 10 + 5 * 5-6);
+        map2_hitbox8 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 5, 68 + 235 - 10 + 5 * 5 - 50);
         hitbox.x = map2_hitbox8.getX();
         hitbox.y = map2_hitbox8.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox8.setHitbox(hitbox);
 
-        map2_hitbox9 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 6, 68 + 235 - 10 + 5 * 6-6);
+        map2_hitbox9 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 6, 68 + 235 - 10 + 5 * 6 - 50);
         hitbox.x = map2_hitbox9.getX();
         hitbox.y = map2_hitbox9.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox9.setHitbox(hitbox);
 
-        map2_hitbox10 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 7, 68 + 235 - 10 + 5 * 7-6);
+        map2_hitbox10 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 7, 68 + 235 - 10 + 5 * 7 - 50);
         hitbox.x = map2_hitbox10.getX();
         hitbox.y = map2_hitbox10.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox10.setHitbox(hitbox);
 
-        map2_hitbox11 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 8, 68 + 235 - 10 + 5 * 8-6);
+        map2_hitbox11 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 8, 68 + 235 - 10 + 5 * 8 - 50);
         hitbox.x = map2_hitbox11.getX();
         hitbox.y = map2_hitbox11.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox11.setHitbox(hitbox);
 
-        map2_hitbox12 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 9, 68 + 235 - 10 + 5 * 9-6);
+        map2_hitbox12 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 9, 68 + 235 - 10 + 5 * 9 - 50);
         hitbox.x = map2_hitbox12.getX();
         hitbox.y = map2_hitbox12.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox12.setHitbox(hitbox);
 
         map2_hitbox13 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 9 + 10, 68 + 235 - 10 + 5 * 10);
@@ -198,25 +217,25 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 11;
         map2_hitbox14.setHitbox(hitbox);
 
-        map2_hitbox15 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 10 + 10 + 45, 68 + 235 - 10 + 5 * 10 + 25 -6);
+        map2_hitbox15 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 10 + 10 + 45, 68 + 235 - 10 + 5 * 10 + 25 - 50);
         hitbox.x = map2_hitbox15.getX();
         hitbox.y = map2_hitbox15.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox15.setHitbox(hitbox);
 
-        map2_hitbox16 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 11 + 10 + 45, 68 + 235 - 10 + 5 * 11 + 25 -6);
+        map2_hitbox16 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 11 + 10 + 45, 68 + 235 - 10 + 5 * 11 + 25 - 50);
         hitbox.x = map2_hitbox16.getX();
         hitbox.y = map2_hitbox16.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox16.setHitbox(hitbox);
 
-        map2_hitbox17 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 12 + 10 + 45, 68 + 235 - 10 + 5 * 12 + 25-6);
+        map2_hitbox17 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 12 + 10 + 45, 68 + 235 - 10 + 5 * 12 + 25 - 50);
         hitbox.x = map2_hitbox17.getX();
         hitbox.y = map2_hitbox17.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox17.setHitbox(hitbox);
 
         map2_hitbox18 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 13 + 10 + 45, 68 + 235 - 10 + 5 * 13 + 25 - 30);
@@ -226,39 +245,39 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 15 + 30;
         map2_hitbox18.setHitbox(hitbox);
 
-        map2_hitbox19 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 12 + 10 + 45 + 55, 68 + 235 - 10 + 5 * 11 + 25-6);
+        map2_hitbox19 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 12 + 10 + 45 + 55, 68 + 235 - 10 + 5 * 11 + 25 - 50);
         hitbox.x = map2_hitbox19.getX();
         hitbox.y = map2_hitbox19.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox19.setHitbox(hitbox);
 
-        map2_hitbox20 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 13 + 10 + 45 + 55, 68 + 235 - 10 + 5 * 10 + 25-6);
+        map2_hitbox20 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 13 + 10 + 45 + 55, 68 + 235 - 10 + 5 * 10 + 25 - 50);
         hitbox.x = map2_hitbox20.getX();
         hitbox.y = map2_hitbox20.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox20.setHitbox(hitbox);
 
-        map2_hitbox21 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 14 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 9 + 25-6);
+        map2_hitbox21 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 14 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 9 + 25 - 50);
         hitbox.x = map2_hitbox21.getX();
         hitbox.y = map2_hitbox21.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox21.setHitbox(hitbox);
 
-        map2_hitbox22 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 15 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 8 + 25-6);
+        map2_hitbox22 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 15 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 8 + 25 - 50);
         hitbox.x = map2_hitbox22.getX();
         hitbox.y = map2_hitbox22.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox22.setHitbox(hitbox);
 
-        map2_hitbox23 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 16 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 7 + 25-6);
+        map2_hitbox23 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 16 + 10 + 45 + 55, 68 + 235 - 10 + 4 * 7 + 25 - 50);
         hitbox.x = map2_hitbox23.getX();
         hitbox.y = map2_hitbox23.getY();
         hitbox.width = 45;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox23.setHitbox(hitbox);
 
         map2_hitbox24 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 17 + 10 + 45 + 55, 68 + 235 - 80 - 10 + 4 * 6 + 25);
@@ -268,11 +287,11 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 85;
         map2_hitbox24.setHitbox(hitbox);
 
-        map2_hitbox25 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 18 + 10 + 45 + 55, 68 + 235 - 60 - 15 - 10 + 4 * 5 + 25-6);
+        map2_hitbox25 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 18 + 10 + 45 + 55, 68 + 235 - 60 - 15 - 10 + 4 * 5 + 25 - 50);
         hitbox.x = map2_hitbox25.getX();
         hitbox.y = map2_hitbox25.getY();
         hitbox.width = 250;
-        hitbox.height = 9 + 6;
+        hitbox.height = 9 + 50;
         map2_hitbox25.setHitbox(hitbox);
 
         map2_hitbox26 = new MyHitbox(1360 / 2 - 65 + 45 + 20 * 18 + 10 + 45 + 55 + 175, 68 + 235 - 60 - 15 - 10 + 4 * 5 + 25);
@@ -282,32 +301,104 @@ public class MyJPanel extends JPanel implements Runnable{
         hitbox.height = 500;
         map2_hitbox26.setHitbox(hitbox);
 
-        fence4 = new MyTile(new ImageIcon("Map/fence_4.png").getImage(), 1360 / 2, 768 / 2);
-        hitbox.x = fence4.getX() + 40 + 25;
-        hitbox.y = fence4.getY() + 85 + 35 + 768 / 2 - 120 - 40;
-        hitbox.width = 1360 / 2 - 120;
-        hitbox.height = 50;
-        fence4.setHitbox1(hitbox);
-        hitbox.x = fence4.getX() + 34 + 25 + 1360 / 2 - 119;
-        hitbox.y = fence4.getY() + 80;
-        hitbox.width = 16;
-        hitbox.height = 768 / 2 - 120;
-        fence4.setHitbox2(hitbox);
+        map4_hitbox1 = new MyHitbox(240, 230 - 20);
+        hitbox.x = map4_hitbox1.getX();
+        hitbox.y = map4_hitbox1.getY();
+        hitbox.width = 586 - 250 + 50;
+        hitbox.height = 30;
+        map4_hitbox1.setHitbox(hitbox);
 
-        dog1 = new MyEnemy(1360 / 2 - 150, 768 / 2, new Dogmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        dog2 = new MyEnemy(1360 / 2 + 250, 768 / 2 - 25, new Dogmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        dog3 = new MyEnemy(1360 / 2 - 50, 768 / 2 + 250, new Dogmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        dog4 = new MyEnemy(1360 / 2, 768 / 2 - 100, new Dogmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
+        map4_hitbox2 = new MyHitbox(236, 210);
+        hitbox.x = map4_hitbox2.getX();
+        hitbox.y = map4_hitbox2.getY();
+        hitbox.width = 250 - 236;
+        hitbox.height = 440 - 230 + 50;
+        map4_hitbox2.setHitbox(hitbox);
 
-        chick1 = new MyEnemy(540, 93, new Birdmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        chick2 = new MyEnemy(845, 148, new Birdmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        chick3 = new MyEnemy(715, 213, new Birdmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        chick4 = new MyEnemy(470, 263, new Birdmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
+        map4_hitbox3 = new MyHitbox(236, 440);
+        hitbox.x = map4_hitbox3.getX();
+        hitbox.y = map4_hitbox3.getY();
+        hitbox.width = 586 - 236 + 30;
+        hitbox.height = 40;
+        map4_hitbox3.setHitbox(hitbox);
 
-        fish1 = new MyEnemy(325, 275, new Fishmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        fish2 = new MyEnemy(500, 370, new Fishmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        fish3 = new MyEnemy(460, 180, new Fishmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
-        fish4 = new MyEnemy(525, 470, new Fishmon(new Random().nextInt(player.getHighestLevel(), player.getHighestLevel() + 4)));
+        map4_hitbox4 = new MyHitbox(586, 440);
+        hitbox.x = map4_hitbox4.getX();
+        hitbox.y = map4_hitbox4.getY();
+        hitbox.width = 25;
+        hitbox.height = 768 - 440;
+        map4_hitbox4.setHitbox(hitbox);
+
+        map4_hitbox5 = new MyHitbox(586, 0);
+        hitbox.x = map4_hitbox5.getX();
+        hitbox.y = map4_hitbox5.getY();
+        hitbox.width = 20;
+        hitbox.height = 236;
+        map4_hitbox5.setHitbox(hitbox);
+
+        map4_hitbox6 = new MyHitbox(1108, 160);
+        hitbox.x = map4_hitbox6.getX();
+        hitbox.y = map4_hitbox6.getY();
+        hitbox.width = 90;
+        hitbox.height = 45;
+        map4_hitbox6.setHitbox(hitbox);
+
+        map4_hitbox7 = new MyHitbox(1100, 205);
+        hitbox.x = map4_hitbox7.getX();
+        hitbox.y = map4_hitbox7.getY();
+        hitbox.width = 110;
+        hitbox.height = 20;
+        map4_hitbox7.setHitbox(hitbox);
+
+        map4_hitbox8 = new MyHitbox(1086, 225);
+        hitbox.x = map4_hitbox8.getX();
+        hitbox.y = map4_hitbox8.getY();
+        hitbox.width = 1221 - 1086;
+        hitbox.height = 15;
+        map4_hitbox8.setHitbox(hitbox);
+
+        map4_hitboxfish1 = new MyHitbox(470, 245 - 50);
+        hitbox.x = map4_hitboxfish1.getX();
+        hitbox.y = map4_hitboxfish1.getY();
+        hitbox.width = 586 - 470;
+        hitbox.height = 45 + 50;
+        map4_hitboxfish1.setHitbox(hitbox);
+
+        map4_hitboxfish2 = new MyHitbox(250 - 25, 245 - 25);
+        hitbox.x = map4_hitboxfish2.getX();
+        hitbox.y = map4_hitboxfish2.getY();
+        hitbox.width = 366 - 250 + 25;
+        hitbox.height = 295 - 245 + 25;
+        map4_hitboxfish2.setHitbox(hitbox);
+
+        map4_hitboxfish3 = new MyHitbox(250 - 25, 370);
+        hitbox.x = map4_hitboxfish3.getX();
+        hitbox.y = map4_hitboxfish3.getY();
+        hitbox.width = 330 - 250 + 25;
+        hitbox.height = 420 - 370 + 15 + 50;
+        map4_hitboxfish3.setHitbox(hitbox);
+
+        map4_hitboxfish4 = new MyHitbox(405, 420 - 30);
+        hitbox.x = map4_hitboxfish4.getX();
+        hitbox.y = map4_hitboxfish4.getY();
+        hitbox.width = 566 - 405;
+        hitbox.height = 15 + 30 + 75;
+        map4_hitboxfish4.setHitbox(hitbox);
+
+        dog1 = new MyEnemy(1360 / 2 - 150, 768 / 2, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog2 = new MyEnemy(1360 / 2 + 250, 768 / 2 - 25, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog3 = new MyEnemy(1360 / 2 - 50, 768 / 2 + 250, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog4 = new MyEnemy(1360 / 2, 768 / 2 - 100, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+
+        chick1 = new MyEnemy(540, 93, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick2 = new MyEnemy(845, 148, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick3 = new MyEnemy(715, 213, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick4 = new MyEnemy(470, 263, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+
+        fish1 = new MyEnemy(400, 30, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        fish2 = new MyEnemy(100, 85, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        fish3 = new MyEnemy(175, 590, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        fish4 = new MyEnemy(430, 640, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
 
         thread_enemy_1 = new Thread(dog1);
         thread_enemy_1.start();
@@ -361,6 +452,7 @@ public class MyJPanel extends JPanel implements Runnable{
 
         if (map == 1) {
             g2D.drawImage(new ImageIcon("Map/bg_map1.png").getImage(), 0, 0, null);
+            g2D.drawImage(new ImageIcon("Map/fence.png").getImage(), 0, 0, null);
             g2D.drawImage(fence1.getImage(), fence1.getX(), fence1.getY(), null);
             g2D.drawImage(fence2.getImage(), fence2.getX(), fence2.getY(), null);
 
@@ -405,7 +497,6 @@ public class MyJPanel extends JPanel implements Runnable{
             g2D.drawImage(dog4.getImage(), dog4.getMy_x(), dog4.getMy_y(), null);
 
             //g2D.drawRect(dog1.getHitbox().x, dog1.getHitbox().y, dog1.getHitbox().width, dog1.getHitbox().height);g2D.drawRect(dog2.getHitbox().x, dog2.getHitbox().y, dog2.getHitbox().width, dog2.getHitbox().height);g2D.drawRect(dog3.getHitbox().x, dog3.getHitbox().y, dog3.getHitbox().width, dog3.getHitbox().height);g2D.drawRect(dog4.getHitbox().x, dog4.getHitbox().y, dog4.getHitbox().width, dog4.getHitbox().height);
-
         } else {
             dog1.reposition(MyPlayer.getHighestLevel());
             dog2.reposition(MyPlayer.getHighestLevel());
@@ -414,6 +505,7 @@ public class MyJPanel extends JPanel implements Runnable{
         }
 
         if (map == 3) {
+
             g2D.setPaint(Color.white);
             g2D.fillRect(1360 / 2, 718, 50, 50);
             g2D.drawString("Back", 1360 / 2, 718);
@@ -439,11 +531,13 @@ public class MyJPanel extends JPanel implements Runnable{
         }
 
         if (map == 4) {
+            g2D.drawImage(new ImageIcon("Map/fish_b.png").getImage(), 0, 0, null);
+            g2D.drawImage(new ImageIcon("Map/fish_front.png").getImage(), 0, 0, null);
+
             g2D.setPaint(Color.white);
-            thread_enemy_9 = new Thread(fish1);
-            thread_enemy_10 = new Thread(fish2);
-            thread_enemy_11 = new Thread(fish3);
-            thread_enemy_12 = new Thread(fish4);
+            //g2D.drawRect(map4_hitbox1.getHitbox().x, map4_hitbox1.getHitbox().y, map4_hitbox1.getHitbox().width, map4_hitbox1.getHitbox().height);g2D.drawRect(map4_hitbox2.getHitbox().x, map4_hitbox2.getHitbox().y, map4_hitbox2.getHitbox().width, map4_hitbox2.getHitbox().height);g2D.drawRect(map4_hitbox3.getHitbox().x, map4_hitbox3.getHitbox().y, map4_hitbox3.getHitbox().width, map4_hitbox3.getHitbox().height);g2D.drawRect(map4_hitbox4.getHitbox().x, map4_hitbox4.getHitbox().y, map4_hitbox4.getHitbox().width, map4_hitbox4.getHitbox().height);g2D.drawRect(map4_hitbox5.getHitbox().x, map4_hitbox5.getHitbox().y, map4_hitbox5.getHitbox().width, map4_hitbox5.getHitbox().height);g2D.drawRect(map4_hitbox6.getHitbox().x, map4_hitbox6.getHitbox().y, map4_hitbox6.getHitbox().width, map4_hitbox6.getHitbox().height);g2D.drawRect(map4_hitbox7.getHitbox().x, map4_hitbox7.getHitbox().y, map4_hitbox7.getHitbox().width, map4_hitbox7.getHitbox().height);g2D.drawRect(map4_hitbox8.getHitbox().x, map4_hitbox8.getHitbox().y, map4_hitbox8.getHitbox().width, map4_hitbox8.getHitbox().height);
+            //g2D.drawRect(map4_hitboxfish1.getHitbox().x, map4_hitboxfish1.getHitbox().y, map4_hitboxfish1.getHitbox().width, map4_hitboxfish1.getHitbox().height);g2D.drawRect(map4_hitboxfish2.getHitbox().x, map4_hitboxfish2.getHitbox().y, map4_hitboxfish2.getHitbox().width, map4_hitboxfish2.getHitbox().height);g2D.drawRect(map4_hitboxfish3.getHitbox().x, map4_hitboxfish3.getHitbox().y, map4_hitboxfish3.getHitbox().width, map4_hitboxfish3.getHitbox().height);g2D.drawRect(map4_hitboxfish4.getHitbox().x, map4_hitboxfish4.getHitbox().y, map4_hitboxfish4.getHitbox().width, map4_hitboxfish4.getHitbox().height);
+
             g2D.fillRect(1360 - 50, 768 / 2, 50, 50);
             g2D.drawString("Back", 1360 - 50, 768 / 2);
 
@@ -480,6 +574,10 @@ public class MyJPanel extends JPanel implements Runnable{
             g2D.drawImage(new ImageIcon("Map/dog_bg_tree2.png").getImage(), 0, 0, null);
         }
 
+        if (map == 4) {
+            g2D.drawImage(new ImageIcon("Map/fish_front2.png").getImage(), 0, 0, null);
+        }
+
         if (MyShop.isVisible()) {
             g2D.setPaint(new Color(254, 147, 7));
             g2D.fillRoundRect(shopPanel.x, shopPanel.y, shopPanel.width, shopPanel.height, 10, 10);
@@ -488,7 +586,7 @@ public class MyJPanel extends JPanel implements Runnable{
             g2D.setPaint(new Color(255, 210, 133));
             g2D.fillRoundRect(shopPanel.x + 10, shopPanel.y + 10, shopPanel.width - 20, shopPanel.height - 20, 10, 10);
             g2D.setPaint(new Color(128, 50, 11));
-            
+
             g2D.setPaint(Color.white);
             g2D.setStroke(new BasicStroke(2));
 
@@ -509,7 +607,7 @@ public class MyJPanel extends JPanel implements Runnable{
             }
             g2D.setPaint(new Color(128, 50, 11));
             g2D.setStroke(new BasicStroke(1));
-            
+
             g2D.setFont(new Font("Dialog", 12, 15));
 
             g2D.drawString(shop1.getItemShop()[0].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
@@ -609,44 +707,42 @@ public class MyJPanel extends JPanel implements Runnable{
                     MyShop.setVisible(true);
 
                 }
-                if (time_to_interact == 0){
+                if (time_to_interact == 0) {
                     if (player.hitted(dog1.getHitbox())) {
-                        
+
                         enemy[0] = dog1.getAnimon();
-                        enemy[1] = new Fishmon(52);
                         MyBattle.setListEnemy(enemy);
                         if (!MyBattle.isVisible()) {
-                            
                             MyBattle.setVisible(true);
                         }
-                        
+
                     } else if (player.hitted(dog2.getHitbox())) {
-                        
+
                         enemy[0] = dog2.getAnimon();
                         MyBattle.setListEnemy(enemy);
                         if (!MyBattle.isVisible()) {
                             MyBattle.setVisible(true);
                         }
-                        
+
                     } else if (player.hitted(dog3.getHitbox())) {
-                        
+
                         enemy[0] = dog3.getAnimon();
                         MyBattle.setListEnemy(enemy);
                         if (!MyBattle.isVisible()) {
                             MyBattle.setVisible(true);
                         }
-                        
+
                     } else if (player.hitted(dog4.getHitbox())) {
-                        
+
                         enemy[0] = dog4.getAnimon();
                         MyBattle.setListEnemy(enemy);
                         if (!MyBattle.isVisible()) {
                             MyBattle.setVisible(true);
                         }
-                        
+
                     }
                 }
-                
+
                 player.hitted(map2_hitbox1.getHitbox());
                 player.hitted(map2_hitbox2.getHitbox());
                 player.hitted(map2_hitbox3.getHitbox());
@@ -786,11 +882,140 @@ public class MyJPanel extends JPanel implements Runnable{
                 if (player.hitted(shop3.getHitbox())) {
                     MyShop.setVisible(true);
                 }
+
             }
             case 4 -> {
                 if (player.hitted(shop4.getHitbox())) {
                     MyShop.setVisible(true);
                 }
+
+                if (time_to_interact == 0) {
+                    if (player.getHitbox().intersects(map4_hitboxfish1.getHitbox())) {
+                        fish1.setMoveto_player(true);
+                        fish1.move_to_player(player.getHitbox());
+                        if (fish1.getHitbox().intersects(map4_hitboxfish1.getHitbox())) {
+                            enemy[0] = fish1.getAnimon();
+                            MyBattle.setListEnemy(enemy);
+                            if (!MyBattle.isVisible()) {
+                                MyBattle.setVisible(true);
+                            }
+                        }
+                    } else {
+                        if (fish1.isLeave_origin()) {
+                            fish1.setMoveto_player(true);
+                            fish1.move_to_player(fish1.getOrigin());
+                        } else {
+                            fish1.setMoveto_player(false);
+                        }
+
+                    }
+
+                    if (player.getHitbox().intersects(map4_hitboxfish2.getHitbox())) {
+                        fish2.setMoveto_player(true);
+                        fish2.move_to_player(player.getHitbox());
+                        if (fish2.getHitbox().intersects(map4_hitboxfish2.getHitbox())) {
+                            enemy[0] = fish2.getAnimon();
+                            MyBattle.setListEnemy(enemy);
+                            if (!MyBattle.isVisible()) {
+                                MyBattle.setVisible(true);
+                            }
+                        }
+                    } else {
+                        if (fish2.isLeave_origin()) {
+                            fish2.setMoveto_player(true);
+                            fish2.move_to_player(fish2.getOrigin());
+                        } else {
+                            fish2.setMoveto_player(false);
+                        }
+
+                    }
+
+                    if (player.getHitbox().intersects(map4_hitboxfish3.getHitbox())) {
+                        fish3.setMoveto_player(true);
+                        fish3.move_to_player(player.getHitbox());
+
+                        if (fish3.getHitbox().intersects(map4_hitboxfish3.getHitbox())) {
+                            enemy[0] = fish3.getAnimon();
+                            MyBattle.setListEnemy(enemy);
+                            if (!MyBattle.isVisible()) {
+                                MyBattle.setVisible(true);
+                            }
+                        }
+                    } else {
+                        if (fish3.isLeave_origin()) {
+                            fish3.setMoveto_player(true);
+                            fish3.move_to_player(fish3.getOrigin());
+                        } else {
+                            fish3.setMoveto_player(false);
+                        }
+
+                    }
+
+                    if (player.getHitbox().intersects(map4_hitboxfish4.getHitbox())) {
+                        fish4.setMoveto_player(true);
+                        fish4.move_to_player(player.getHitbox());
+
+                        if (fish4.getHitbox().intersects(map4_hitboxfish4.getHitbox())) {
+                            enemy[0] = fish4.getAnimon();
+                            MyBattle.setListEnemy(enemy);
+                            if (!MyBattle.isVisible()) {
+                                MyBattle.setVisible(true);
+                            }
+                        }
+                    } else {
+                        if (fish4.isLeave_origin()) {
+                            fish4.setMoveto_player(true);
+                            fish4.move_to_player(fish4.getOrigin());
+                        } else {
+                            fish4.setMoveto_player(false);
+                        }
+
+                    }
+                }
+                player.hitted(map4_hitbox1.getHitbox());
+                player.hitted(map4_hitbox2.getHitbox());
+                player.hitted(map4_hitbox3.getHitbox());
+                player.hitted(map4_hitbox4.getHitbox());
+                player.hitted(map4_hitbox5.getHitbox());
+                player.hitted(map4_hitbox6.getHitbox());
+                player.hitted(map4_hitbox7.getHitbox());
+                player.hitted(map4_hitbox8.getHitbox());
+
+                fish1.hitted(map4_hitbox1.getHitbox());
+                fish1.hitted(map4_hitbox2.getHitbox());
+                fish1.hitted(map4_hitbox3.getHitbox());
+                fish1.hitted(map4_hitbox4.getHitbox());
+                fish1.hitted(map4_hitbox5.getHitbox());
+                fish1.hitted(map4_hitbox6.getHitbox());
+                fish1.hitted(map4_hitbox7.getHitbox());
+                fish1.hitted(map4_hitbox8.getHitbox());
+
+                fish2.hitted(map4_hitbox1.getHitbox());
+                fish2.hitted(map4_hitbox2.getHitbox());
+                fish2.hitted(map4_hitbox3.getHitbox());
+                fish2.hitted(map4_hitbox4.getHitbox());
+                fish2.hitted(map4_hitbox5.getHitbox());
+                fish2.hitted(map4_hitbox6.getHitbox());
+                fish2.hitted(map4_hitbox7.getHitbox());
+                fish2.hitted(map4_hitbox8.getHitbox());
+
+                fish3.hitted(map4_hitbox1.getHitbox());
+                fish3.hitted(map4_hitbox2.getHitbox());
+                fish3.hitted(map4_hitbox3.getHitbox());
+                fish3.hitted(map4_hitbox4.getHitbox());
+                fish3.hitted(map4_hitbox5.getHitbox());
+                fish3.hitted(map4_hitbox6.getHitbox());
+                fish3.hitted(map4_hitbox7.getHitbox());
+                fish3.hitted(map4_hitbox8.getHitbox());
+
+                fish4.hitted(map4_hitbox1.getHitbox());
+                fish4.hitted(map4_hitbox2.getHitbox());
+                fish4.hitted(map4_hitbox3.getHitbox());
+                fish4.hitted(map4_hitbox4.getHitbox());
+                fish4.hitted(map4_hitbox5.getHitbox());
+                fish4.hitted(map4_hitbox6.getHitbox());
+                fish4.hitted(map4_hitbox7.getHitbox());
+                fish4.hitted(map4_hitbox8.getHitbox());
             }
             default -> {
             }

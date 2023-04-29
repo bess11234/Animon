@@ -60,7 +60,7 @@ public class MyMenu {
     }
 
     public static void selected(MyController ct, Player player) {
-
+        boolean use = false;
         if (item) {
 
             if (ct.button_x && time == 0 && !use_item) {
@@ -85,31 +85,43 @@ public class MyMenu {
                     time = 2;
 
                 } else if (ct.button_z && time == 0) {
-
+                    
                     switch (item_num) {
                         case 0 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPS() - 1], player, null);
-
+                            if (player.getAnimals()[num].hp < player.getAnimals()[num].maxHp){
+                                player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPS() - 1], player, null);
+                                use = true;
+                            }
                         }
                         case 1 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPL() - 1], player, null);
-
+                            if (player.getAnimals()[num].hp < player.getAnimals()[num].maxHp){
+                                player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionHPL() - 1], player, null);
+                                use = true;
+                            }
                         }
                         case 2 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTS() - 1], player, null);
-
+                            if (player.getAnimals()[num].stamina < player.getAnimals()[num].maxStamina){
+                                player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTS() - 1], player, null);
+                                use = true;
+                            }
                         }
                         case 3 -> {
-                            player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTL() - 1], player, null);
-
+                            if (player.getAnimals()[num].stamina < player.getAnimals()[num].maxStamina){
+                                player.getAnimals()[num].useItem(player.getInventory()[item_num][player.getCount_potionSTL() - 1], player, null);
+                                use = true;
+                            }
                         }
                         default -> {
                         }
                     }
-                    item_num = 0;
-                    use_item = false;
-                    num = 0;
-                    time = 2;
+                    
+                    if (use){
+                        item_num = 0;
+                        use_item = false;
+                        num = 0;
+                        time = 2;
+                    }
+                    
 
                 }
 

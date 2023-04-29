@@ -95,7 +95,7 @@ public class MyPlayer extends Player{
     }
 
     public void movement(MyController ct) {
-
+//        System.out.println(hitbox.x + " " + hitbox.y);
         if (ct.down) {
             this.setImage(animation[0]);
             this.setMy_y(my_y + speed);

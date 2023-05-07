@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.*;
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.*;
 
@@ -28,24 +29,26 @@ public class MyJPanel extends JPanel implements Runnable {
 
     private MyPlayer player;
     private MyShop shop1, shop2, shop3, shop4;
-    private Rectangle shopPanel, startPanel;
+    private Rectangle shopPanel;
     private MyTile fence1, fence2, fence3, fence4;
     private MyHitbox map2_hitbox1, map2_hitbox2, map2_hitbox3, map2_hitbox4, map2_hitbox5,
             map2_hitbox6, map2_hitbox7, map2_hitbox8, map2_hitbox9, map2_hitbox10, map2_hitbox11,
             map2_hitbox12, map2_hitbox13, map2_hitbox14, map2_hitbox15, map2_hitbox16, map2_hitbox17,
             map2_hitbox18, map2_hitbox19, map2_hitbox20, map2_hitbox21, map2_hitbox22, map2_hitbox23,
-            map2_hitbox24, map2_hitbox25, map2_hitbox26, map4_hitbox1, map4_hitbox2, map4_hitbox3,
+            map2_hitbox24, map2_hitbox25, map2_hitbox26, map3_hitbox1, map3_hitbox2, map4_hitbox1, map4_hitbox2, map4_hitbox3,
             map4_hitbox4, map4_hitbox5, map4_hitbox6, map4_hitbox7, map4_hitbox8,
             map4_hitboxfish1, map4_hitboxfish2, map4_hitboxfish3, map4_hitboxfish4;
 
-    private Rectangle hitbox;
+    private MyNPC map1_npc1, map1_npc2, map1_npc3, map2_npc1, map2_npc2, map2_npc3, map3_npc1, map3_npc2, map3_npc3, map4_npc1, map4_npc2, map4_npc3;
 
-    private Animon[] enemy = new Animon[3];
+    private Rectangle hitbox, door1_dog, door1_fish, door1_bird, door2_back, door3_back, door4_back;
+
+    private static Animon[] enemy = new Animon[3];
     private MyEnemy dog1, dog2, dog3, dog4, chick1, chick2, chick3, chick4, fish1, fish2, fish3, fish4;
-    private int map = 1; //1 = Start map, 2 = Dog ##Tample; 3 = Chicken ##KFC; 4 = Fish; 5 = Battle ##UFC
+    private static int map = 1; //1 = Start map, 2 = Dog ##Tample; 3 = Chicken ##KFC; 4 = Fish; 5 = Battle ##UFC
     private static int time_to_interact = 0;
-    private ImageIcon[] animation = {new ImageIcon("Player_image/down.png"), new ImageIcon("Player_image/left.png"),
-        new ImageIcon("Player_image/right.png"), new ImageIcon("Player_image/up.png")};
+    private ImageIcon[][] animation = {{new ImageIcon("Player_image/down1.png"), new ImageIcon("Player_image/down2.png"), new ImageIcon("Player_image/down3.png")}, {new ImageIcon("Player_image/left1.png"), new ImageIcon("Player_image/left2.png"), new ImageIcon("Player_image/left3.png")},
+        {new ImageIcon("Player_image/right1.png"), new ImageIcon("Player_image/right2.png"), new ImageIcon("Player_image/right3.png")}, {new ImageIcon("Player_image/up1.png"), new ImageIcon("Player_image/up2.png"), new ImageIcon("Player_image/up3.png")}};
 
     public MyJPanel(MyJFrame frame) throws ClassNotFoundException {
         MyJPanel.frame = frame;
@@ -53,7 +56,6 @@ public class MyJPanel extends JPanel implements Runnable {
         hitbox = new Rectangle();
         thread_main = new Thread(this);
         shopPanel = new Rectangle();
-        startPanel = new Rectangle();
         player = new MyPlayer();
 
         try (BufferedInputStream file = new BufferedInputStream(new FileInputStream("save/save1.dat"))) {
@@ -61,15 +63,33 @@ public class MyJPanel extends JPanel implements Runnable {
             player = (MyPlayer) out.readObject();
             map = player.getMap();
             player.update();
-            MyStart.setVisible(false);
+            MyStart.setCon(true);
+            MyStart.setStart_newgame(false);
         } catch (IOException ex) {
         }
+
         player.setAnimation(animation);
 
-        shop1 = new MyShop(580, 285);
-        shop2 = new MyShop(150, 260);
+        shop1 = new MyShop(450, 150);
+        shop2 = new MyShop(150, 240);
         shop3 = new MyShop(460, 590);
         shop4 = new MyShop(1110, 545);
+
+        map1_npc1 = new MyNPC(850, 470, new ImageIcon("Npc/NPC2.png"));
+        map1_npc2 = new MyNPC(290, 225, new ImageIcon("Npc/NPC3.png"));
+        map1_npc3 = new MyNPC(840, 80, new ImageIcon("Npc/NPC1.png"));
+
+        map2_npc1 = new MyNPC(70, 100, new ImageIcon("Npc/NPC1.png"));
+        map2_npc2 = new MyNPC(45, 493, new ImageIcon("Npc/NPC3.png"));
+        map2_npc3 = new MyNPC(305, 543, new ImageIcon("Npc/NPC2.png"));
+
+        map3_npc1 = new MyNPC(630, 293, new ImageIcon("Npc/NPC1.png"));
+        map3_npc2 = new MyNPC(45, 493, new ImageIcon("Npc/NPC3.png"));
+        map3_npc3 = new MyNPC(305, 543, new ImageIcon("Npc/NPC3.png"));
+
+        map4_npc1 = new MyNPC(1040, 160, new ImageIcon("Npc/NPC1.png"));
+        map4_npc2 = new MyNPC(335, 365, new ImageIcon("Npc/NPC3.png"));
+        map4_npc3 = new MyNPC(925, 105, new ImageIcon("Npc/NPC1.png"));
 
         fence1 = new MyTile(new ImageIcon("Map/fence_1.png").getImage(), 0, 0);
         hitbox.x = fence1.getX() + 30;
@@ -301,6 +321,13 @@ public class MyJPanel extends JPanel implements Runnable {
         hitbox.height = 500;
         map2_hitbox26.setHitbox(hitbox);
 
+        map3_hitbox1 = new MyHitbox(610, 395);
+        hitbox.x = map3_hitbox1.getX();
+        hitbox.y = map3_hitbox1.getY();
+        hitbox.width = 690 - 600;
+        hitbox.height = 425 - 395;
+        map3_hitbox1.setHitbox(hitbox);
+
         map4_hitbox1 = new MyHitbox(240, 230 - 20);
         hitbox.x = map4_hitbox1.getX();
         hitbox.y = map4_hitbox1.getY();
@@ -364,18 +391,18 @@ public class MyJPanel extends JPanel implements Runnable {
         hitbox.height = 45 + 50;
         map4_hitboxfish1.setHitbox(hitbox);
 
-        map4_hitboxfish2 = new MyHitbox(250 - 25, 245 - 25);
+        map4_hitboxfish2 = new MyHitbox(250 - 25, 245 - 40);
         hitbox.x = map4_hitboxfish2.getX();
         hitbox.y = map4_hitboxfish2.getY();
         hitbox.width = 366 - 250 + 25;
-        hitbox.height = 295 - 245 + 25;
+        hitbox.height = 295 - 245 + 40;
         map4_hitboxfish2.setHitbox(hitbox);
 
         map4_hitboxfish3 = new MyHitbox(250 - 25, 370);
         hitbox.x = map4_hitboxfish3.getX();
         hitbox.y = map4_hitboxfish3.getY();
         hitbox.width = 330 - 250 + 25;
-        hitbox.height = 420 - 370 + 15 + 50;
+        hitbox.height = 420 - 370 + 15 + 70;
         map4_hitboxfish3.setHitbox(hitbox);
 
         map4_hitboxfish4 = new MyHitbox(405, 420 - 30);
@@ -385,20 +412,58 @@ public class MyJPanel extends JPanel implements Runnable {
         hitbox.height = 15 + 30 + 75;
         map4_hitboxfish4.setHitbox(hitbox);
 
-        dog1 = new MyEnemy(1360 / 2 - 150, 768 / 2, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
-        dog2 = new MyEnemy(1360 / 2 + 250, 768 / 2 - 25, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog1 = new MyEnemy(1360 / 2 - 150, 768 / 2 - 50, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog2 = new MyEnemy(1360 / 2 + 250, 768 / 2 - 25 + 75, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
         dog3 = new MyEnemy(1360 / 2 - 50, 768 / 2 + 250, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
-        dog4 = new MyEnemy(1360 / 2, 768 / 2 - 100, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        dog4 = new MyEnemy(1360 / 2 + 50, 768 / 2 - 20, new Dogmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
 
-        chick1 = new MyEnemy(540, 93, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
-        chick2 = new MyEnemy(845, 148, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
-        chick3 = new MyEnemy(715, 213, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
-        chick4 = new MyEnemy(470, 263, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick1 = new MyEnemy(80, 130, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick2 = new MyEnemy(256 - 10, 565 - 10, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick3 = new MyEnemy(1026 - 20, 390 - 15, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick4 = new MyEnemy(1186 - 15, 420 - 10, new Birdmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+        chick1.setMoveable(false);
+        chick2.setMoveable(false);
+        chick3.setMoveable(false);
+        chick4.setMoveable(false);
 
         fish1 = new MyEnemy(400, 30, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
         fish2 = new MyEnemy(100, 85, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
         fish3 = new MyEnemy(175, 590, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
         fish4 = new MyEnemy(430, 640, new Fishmon(new Random().nextInt(MyPlayer.getHighestLevel(), MyPlayer.getHighestLevel() + 4)));
+
+        door1_fish = new Rectangle();
+        door1_fish.x = 0;
+        door1_fish.y = 768 / 2 - 60;
+        door1_fish.width = 25 + 20;
+        door1_fish.height = 100 + 25;
+        door1_bird = new Rectangle();
+        door1_bird.x = 1360 / 2 - 100;
+        door1_bird.y = 0;
+        door1_bird.width = 100 + 50;
+        door1_bird.height = 35 + 20;
+        door1_dog = new Rectangle();
+        door1_dog.x = 1360 - 25 - 20;
+        door1_dog.y = 768 / 2 - 60;
+        door1_dog.width = 25 + 20;
+        door1_dog.height = 100 + 25;
+
+        door2_back = new Rectangle();
+        door2_back.x = 0;
+        door2_back.y = 768 / 2 - 60;
+        door2_back.width = 25 + 10;
+        door2_back.height = 100 + 25;
+
+        door3_back = new Rectangle();
+        door3_back.x = 1360 / 2 - 100;
+        door3_back.y = 768 - 35 - 10;
+        door3_back.width = 150;
+        door3_back.height = 35 + 10;
+
+        door4_back = new Rectangle();
+        door4_back.x = 1360 - 25 - 10;
+        door4_back.y = 768 / 2 - 60;
+        door4_back.width = 25 + 10;
+        door4_back.height = 100 + 25;
 
         thread_enemy_1 = new Thread(dog1);
         thread_enemy_1.start();
@@ -432,11 +497,6 @@ public class MyJPanel extends JPanel implements Runnable {
         shopPanel.width = 1360 / 2;
         shopPanel.height = 768 / 2;
 
-        startPanel.x = 1360 / 4;
-        startPanel.y = 768 / 4;
-        startPanel.width = 1360 / 2;
-        startPanel.height = 768 / 2;
-
         this.setPreferredSize(new Dimension(1360, 768));
         this.setBounds(0, 0, 1360, 768);
         this.setBackground(Color.black);
@@ -453,39 +513,43 @@ public class MyJPanel extends JPanel implements Runnable {
         if (map == 1) {
             g2D.drawImage(new ImageIcon("Map/bg_map1.png").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("Map/fence.png").getImage(), 0, 0, null);
+
+            //g2D.drawRect(door1_fish.x, door1_fish.y, door1_fish.width, door1_fish.height);g2D.drawRect(door1_bird.x, door1_bird.y, door1_bird.width, door1_bird.height);g2D.drawRect(door1_dog.x, door1_dog.y, door1_dog.width, door1_dog.height);
             g2D.drawImage(fence1.getImage(), fence1.getX(), fence1.getY(), null);
             g2D.drawImage(fence2.getImage(), fence2.getX(), fence2.getY(), null);
 
             g2D.setPaint(Color.white);
-            g2D.fillRect(0, 768 / 2, 50, 50); // Fish
-            g2D.drawString("Fish", 0, 768 / 2);
-            g2D.fillRect(1360 / 2, 0, 50, 50); // Bird
-            g2D.drawString("Bird", 1360 / 2, 65);
-            g2D.fillRect(1360 - 50, 768 / 2, 50, 50); // Dog
-            g2D.drawString("Dog", 1360 - 50, 768 / 2);
+            g2D.drawImage(MyShop.getImageBack(), shop1.getX(), shop1.getY(), null);
+            g2D.drawString("Fish", 20, 768 / 2);
+            g2D.drawString("Bird", 1360 / 2 - 35, 30);
+            g2D.drawString("Dog", 1360 - 40, 768 / 2);
 
-            g2D.setPaint(Color.red);
-            g2D.fillRect(shop1.getX(), shop1.getY(), 50, 50);
+            g2D.drawString("Level : " + map1_npc1.getHighestLevel(), map1_npc1.getX() + 18, map1_npc1.getY());
+            g2D.drawImage(map1_npc1.getImage(), map1_npc1.getX(), map1_npc1.getY(), null);
+            g2D.drawString("Level : " + map1_npc2.getHighestLevel(), map1_npc2.getX() + 18, map1_npc2.getY());
+            g2D.drawImage(map1_npc2.getImage(), map1_npc2.getX(), map1_npc2.getY(), null);
+            g2D.drawString("Level : " + map1_npc3.getHighestLevel(), map1_npc3.getX() + 18, map1_npc3.getY());
+            g2D.drawImage(map1_npc3.getImage(), map1_npc3.getX(), map1_npc3.getY(), null);
 
-            g2D.setPaint(Color.white);
-            g2D.drawString("Shop", shop1.getX() + 50 / 4 - 1, shop1.getY() - 2);
+        } else {
+            map1_npc1.setAnimon(MyNPC.getAnimon());
+            map1_npc1.highestLevel();
+            map1_npc2.setAnimon(MyNPC.getAnimon());
+            map1_npc2.highestLevel();
+            map1_npc3.setAnimon(MyNPC.getAnimon());
+            map1_npc3.highestLevel();
         }
 
         if (map == 2) {
             g2D.drawImage(new ImageIcon("Map/dog_bg.png").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("Map/dog_bg_tree.png").getImage(), 0, 0, null);
             //g2D.drawRect(map2_hitbox1.getHitbox().x, map2_hitbox1.getHitbox().y, map2_hitbox1.getHitbox().width, map2_hitbox1.getHitbox().height);g2D.drawRect(map2_hitbox2.getHitbox().x, map2_hitbox2.getHitbox().y, map2_hitbox2.getHitbox().width, map2_hitbox2.getHitbox().height);g2D.drawRect(map2_hitbox3.getHitbox().x, map2_hitbox3.getHitbox().y, map2_hitbox3.getHitbox().width, map2_hitbox3.getHitbox().height);g2D.drawRect(map2_hitbox4.getHitbox().x, map2_hitbox4.getHitbox().y, map2_hitbox4.getHitbox().width, map2_hitbox4.getHitbox().height);g2D.drawRect(map2_hitbox5.getHitbox().x, map2_hitbox5.getHitbox().y, map2_hitbox5.getHitbox().width, map2_hitbox5.getHitbox().height);g2D.drawRect(map2_hitbox6.getHitbox().x, map2_hitbox6.getHitbox().y, map2_hitbox6.getHitbox().width, map2_hitbox6.getHitbox().height);g2D.drawRect(map2_hitbox7.getHitbox().x, map2_hitbox7.getHitbox().y, map2_hitbox7.getHitbox().width, map2_hitbox7.getHitbox().height);g2D.drawRect(map2_hitbox8.getHitbox().x, map2_hitbox8.getHitbox().y, map2_hitbox8.getHitbox().width, map2_hitbox8.getHitbox().height);g2D.drawRect(map2_hitbox9.getHitbox().x, map2_hitbox9.getHitbox().y, map2_hitbox9.getHitbox().width, map2_hitbox9.getHitbox().height);g2D.drawRect(map2_hitbox10.getHitbox().x, map2_hitbox10.getHitbox().y, map2_hitbox10.getHitbox().width, map2_hitbox10.getHitbox().height);g2D.drawRect(map2_hitbox11.getHitbox().x, map2_hitbox11.getHitbox().y, map2_hitbox11.getHitbox().width, map2_hitbox11.getHitbox().height);g2D.drawRect(map2_hitbox12.getHitbox().x, map2_hitbox12.getHitbox().y, map2_hitbox12.getHitbox().width, map2_hitbox12.getHitbox().height);g2D.drawRect(map2_hitbox13.getHitbox().x, map2_hitbox13.getHitbox().y, map2_hitbox13.getHitbox().width, map2_hitbox13.getHitbox().height);g2D.drawRect(map2_hitbox14.getHitbox().x, map2_hitbox14.getHitbox().y, map2_hitbox14.getHitbox().width, map2_hitbox14.getHitbox().height);g2D.drawRect(map2_hitbox15.getHitbox().x, map2_hitbox15.getHitbox().y, map2_hitbox15.getHitbox().width, map2_hitbox15.getHitbox().height);g2D.drawRect(map2_hitbox16.getHitbox().x, map2_hitbox16.getHitbox().y, map2_hitbox16.getHitbox().width, map2_hitbox16.getHitbox().height);g2D.drawRect(map2_hitbox17.getHitbox().x, map2_hitbox17.getHitbox().y, map2_hitbox17.getHitbox().width, map2_hitbox17.getHitbox().height);g2D.drawRect(map2_hitbox18.getHitbox().x, map2_hitbox18.getHitbox().y, map2_hitbox18.getHitbox().width, map2_hitbox18.getHitbox().height);g2D.drawRect(map2_hitbox19.getHitbox().x, map2_hitbox19.getHitbox().y, map2_hitbox19.getHitbox().width, map2_hitbox19.getHitbox().height);g2D.drawRect(map2_hitbox20.getHitbox().x, map2_hitbox20.getHitbox().y, map2_hitbox20.getHitbox().width, map2_hitbox20.getHitbox().height);g2D.drawRect(map2_hitbox21.getHitbox().x, map2_hitbox21.getHitbox().y, map2_hitbox21.getHitbox().width, map2_hitbox21.getHitbox().height);g2D.drawRect(map2_hitbox22.getHitbox().x, map2_hitbox22.getHitbox().y, map2_hitbox22.getHitbox().width, map2_hitbox22.getHitbox().height);g2D.drawRect(map2_hitbox23.getHitbox().x, map2_hitbox23.getHitbox().y, map2_hitbox23.getHitbox().width, map2_hitbox23.getHitbox().height);g2D.drawRect(map2_hitbox24.getHitbox().x, map2_hitbox24.getHitbox().y, map2_hitbox24.getHitbox().width, map2_hitbox24.getHitbox().height);g2D.drawRect(map2_hitbox25.getHitbox().x, map2_hitbox25.getHitbox().y, map2_hitbox25.getHitbox().width, map2_hitbox25.getHitbox().height);g2D.drawRect(map2_hitbox26.getHitbox().x, map2_hitbox26.getHitbox().y, map2_hitbox26.getHitbox().width, map2_hitbox26.getHitbox().height);
-            g2D.setPaint(Color.white);
+            //g2D.drawRect(dog1.getOrigin().x, dog1.getOrigin().y, dog1.getOrigin().width, dog1.getOrigin().height);g2D.drawRect(dog2.getOrigin().x, dog2.getOrigin().y, dog2.getOrigin().width, dog2.getOrigin().height);g2D.drawRect(dog3.getOrigin().x, dog3.getOrigin().y, dog3.getOrigin().width, dog3.getOrigin().height);g2D.drawRect(dog4.getOrigin().x, dog4.getOrigin().y, dog4.getOrigin().width, dog4.getOrigin().height);
+            //g2D.drawRect(door2_back.x, door2_back.y, door2_back.width, door2_back.height);
 
             g2D.setPaint(Color.white);
-            g2D.fillRect(0, 768 / 2, 50, 50);
-            g2D.drawString("Back", 0, 768 / 2);
-
-            g2D.setPaint(Color.red);
-            g2D.fillRect(shop2.getX(), shop2.getY(), 50, 50);
-
-            g2D.setPaint(Color.white);
-            g2D.drawString("Shop", shop2.getX() + 50 / 4 - 1, shop2.getY() - 2);
+            g2D.drawString("Back", 20, 768 / 2);
+            g2D.drawImage(MyShop.getImageBack(), shop2.getX(), shop2.getY(), null);
 
             g2D.drawString("Level : " + dog1.getLevel(), dog1.getMy_x() + 4, dog1.getMy_y());
             g2D.drawString("Level : " + dog2.getLevel(), dog2.getMy_x() + 4, dog2.getMy_y());
@@ -496,25 +560,39 @@ public class MyJPanel extends JPanel implements Runnable {
             g2D.drawImage(dog3.getImage(), dog3.getMy_x(), dog3.getMy_y(), null);
             g2D.drawImage(dog4.getImage(), dog4.getMy_x(), dog4.getMy_y(), null);
 
+            g2D.drawString("Level : " + map2_npc1.getHighestLevel(), map2_npc1.getX() + 18, map2_npc1.getY());
+            g2D.drawImage(map2_npc1.getImage(), map2_npc1.getX(), map2_npc1.getY(), null);
+            g2D.drawString("Level : " + map2_npc2.getHighestLevel(), map2_npc2.getX() + 18, map2_npc2.getY());
+            g2D.drawImage(map2_npc2.getImage(), map2_npc2.getX(), map2_npc2.getY(), null);
+            g2D.drawString("Level : " + map2_npc3.getHighestLevel(), map2_npc3.getX() + 18, map2_npc3.getY());
+            g2D.drawImage(map2_npc3.getImage(), map2_npc3.getX(), map2_npc3.getY(), null);
+
             //g2D.drawRect(dog1.getHitbox().x, dog1.getHitbox().y, dog1.getHitbox().width, dog1.getHitbox().height);g2D.drawRect(dog2.getHitbox().x, dog2.getHitbox().y, dog2.getHitbox().width, dog2.getHitbox().height);g2D.drawRect(dog3.getHitbox().x, dog3.getHitbox().y, dog3.getHitbox().width, dog3.getHitbox().height);g2D.drawRect(dog4.getHitbox().x, dog4.getHitbox().y, dog4.getHitbox().width, dog4.getHitbox().height);
         } else {
             dog1.reposition(MyPlayer.getHighestLevel());
             dog2.reposition(MyPlayer.getHighestLevel());
             dog3.reposition(MyPlayer.getHighestLevel());
             dog4.reposition(MyPlayer.getHighestLevel());
+
+            map2_npc1.setAnimon(MyNPC.getAnimon());
+            map2_npc1.highestLevel();
+            map2_npc2.setAnimon(MyNPC.getAnimon());
+            map2_npc2.highestLevel();
+            map2_npc3.setAnimon(MyNPC.getAnimon());
+            map2_npc3.highestLevel();
         }
 
         if (map == 3) {
+            g2D.drawImage(new ImageIcon("Map/kai_bg.png").getImage(), 0, 0, null);
+            g2D.drawImage(new ImageIcon("Map/kai_front.png").getImage(), 0, 0, null);
+            //g2D.drawRect(door3_back.x, door3_back.y, door3_back.width, door3_back.height);
 
+            //g2D.drawRect(map3_hitbox1.getHitbox().x, map3_hitbox1.getHitbox().y, map3_hitbox1.getHitbox().width, map3_hitbox1.getHitbox().height);
             g2D.setPaint(Color.white);
-            g2D.fillRect(1360 / 2, 718, 50, 50);
-            g2D.drawString("Back", 1360 / 2, 718);
+            g2D.drawString("Back", 1360 / 2 - 35, 718 + 10);
+            g2D.drawImage(MyShop.getImageBack(), shop3.getX(), shop3.getY(), null);
 
-            g2D.setPaint(Color.red);
-            g2D.fillRect(shop3.getX(), shop3.getY(), 50, 50);
-
-            g2D.setPaint(Color.white);
-            g2D.drawString("Shop", shop3.getX() + 50 / 4 - 1, shop3.getY() - 2);
+            g2D.setPaint(Color.black);
             g2D.drawString("Level : " + chick1.getLevel(), chick1.getMy_x() + 4, chick1.getMy_y());
             g2D.drawString("Level : " + chick2.getLevel(), chick2.getMy_x() + 4, chick2.getMy_y());
             g2D.drawString("Level : " + chick3.getLevel(), chick3.getMy_x() + 4, chick3.getMy_y());
@@ -523,29 +601,44 @@ public class MyJPanel extends JPanel implements Runnable {
             g2D.drawImage(chick2.getImage(), chick2.getMy_x(), chick2.getMy_y(), null);
             g2D.drawImage(chick3.getImage(), chick3.getMy_x(), chick3.getMy_y(), null);
             g2D.drawImage(chick4.getImage(), chick4.getMy_x(), chick4.getMy_y(), null);
+
+            g2D.drawImage(chick1.getImage(), 106 - 10, 535, null);
+            g2D.drawImage(chick1.getImage(), 46 - 15, 610, null);
+            g2D.drawImage(chick1.getImage(), 1111 - 10, 645 - 5, null);
+
+            g2D.drawString("Level : " + map3_npc1.getHighestLevel(), map3_npc1.getX() + 18, map3_npc1.getY());
+            g2D.drawImage(map3_npc1.getImage(), map3_npc1.getX(), map3_npc1.getY(), null);
+            g2D.drawString("Level : " + map3_npc2.getHighestLevel(), map3_npc2.getX() + 18, map3_npc2.getY());
+            g2D.drawImage(map3_npc2.getImage(), map3_npc2.getX(), map3_npc2.getY(), null);
+            g2D.drawString("Level : " + map3_npc3.getHighestLevel(), map3_npc3.getX() + 18, map3_npc3.getY());
+            g2D.drawImage(map3_npc3.getImage(), map3_npc3.getX(), map3_npc3.getY(), null);
         } else {
             chick1.reposition(MyPlayer.getHighestLevel());
             chick2.reposition(MyPlayer.getHighestLevel());
             chick3.reposition(MyPlayer.getHighestLevel());
             chick4.reposition(MyPlayer.getHighestLevel());
+
+            map3_npc1.setAnimon(MyNPC.getAnimon());
+            map3_npc1.highestLevel();
+            map3_npc2.setAnimon(MyNPC.getAnimon());
+            map3_npc2.highestLevel();
+            map3_npc3.setAnimon(MyNPC.getAnimon());
+            map3_npc3.highestLevel();
         }
 
         if (map == 4) {
             g2D.drawImage(new ImageIcon("Map/fish_b.png").getImage(), 0, 0, null);
             g2D.drawImage(new ImageIcon("Map/fish_front.png").getImage(), 0, 0, null);
+            //g2D.drawRect(door4_back.x, door4_back.y, door4_back.width, door4_back.height);
 
             g2D.setPaint(Color.white);
             //g2D.drawRect(map4_hitbox1.getHitbox().x, map4_hitbox1.getHitbox().y, map4_hitbox1.getHitbox().width, map4_hitbox1.getHitbox().height);g2D.drawRect(map4_hitbox2.getHitbox().x, map4_hitbox2.getHitbox().y, map4_hitbox2.getHitbox().width, map4_hitbox2.getHitbox().height);g2D.drawRect(map4_hitbox3.getHitbox().x, map4_hitbox3.getHitbox().y, map4_hitbox3.getHitbox().width, map4_hitbox3.getHitbox().height);g2D.drawRect(map4_hitbox4.getHitbox().x, map4_hitbox4.getHitbox().y, map4_hitbox4.getHitbox().width, map4_hitbox4.getHitbox().height);g2D.drawRect(map4_hitbox5.getHitbox().x, map4_hitbox5.getHitbox().y, map4_hitbox5.getHitbox().width, map4_hitbox5.getHitbox().height);g2D.drawRect(map4_hitbox6.getHitbox().x, map4_hitbox6.getHitbox().y, map4_hitbox6.getHitbox().width, map4_hitbox6.getHitbox().height);g2D.drawRect(map4_hitbox7.getHitbox().x, map4_hitbox7.getHitbox().y, map4_hitbox7.getHitbox().width, map4_hitbox7.getHitbox().height);g2D.drawRect(map4_hitbox8.getHitbox().x, map4_hitbox8.getHitbox().y, map4_hitbox8.getHitbox().width, map4_hitbox8.getHitbox().height);
             //g2D.drawRect(map4_hitboxfish1.getHitbox().x, map4_hitboxfish1.getHitbox().y, map4_hitboxfish1.getHitbox().width, map4_hitboxfish1.getHitbox().height);g2D.drawRect(map4_hitboxfish2.getHitbox().x, map4_hitboxfish2.getHitbox().y, map4_hitboxfish2.getHitbox().width, map4_hitboxfish2.getHitbox().height);g2D.drawRect(map4_hitboxfish3.getHitbox().x, map4_hitboxfish3.getHitbox().y, map4_hitboxfish3.getHitbox().width, map4_hitboxfish3.getHitbox().height);g2D.drawRect(map4_hitboxfish4.getHitbox().x, map4_hitboxfish4.getHitbox().y, map4_hitboxfish4.getHitbox().width, map4_hitboxfish4.getHitbox().height);
 
-            g2D.fillRect(1360 - 50, 768 / 2, 50, 50);
-            g2D.drawString("Back", 1360 - 50, 768 / 2);
-
-            g2D.setPaint(Color.red);
-            g2D.fillRect(shop4.getX(), shop4.getY(), 50, 50);
+            g2D.drawString("Back", 1360 - 40, 768 / 2);
+            g2D.drawImage(MyShop.getImageBack(), shop4.getX(), shop4.getY(), null);
 
             g2D.setPaint(Color.white);
-            g2D.drawString("Shop", shop4.getX() + 50 / 4 - 1, shop4.getY() - 2);
             g2D.drawString("Level : " + fish1.getLevel(), fish1.getMy_x() + 4, fish1.getMy_y());
             g2D.drawString("Level : " + fish2.getLevel(), fish2.getMy_x() + 4, fish2.getMy_y());
             g2D.drawString("Level : " + fish3.getLevel(), fish3.getMy_x() + 4, fish3.getMy_y());
@@ -554,28 +647,51 @@ public class MyJPanel extends JPanel implements Runnable {
             g2D.drawImage(fish2.getImage(), fish2.getMy_x(), fish2.getMy_y(), null);
             g2D.drawImage(fish3.getImage(), fish3.getMy_x(), fish3.getMy_y(), null);
             g2D.drawImage(fish4.getImage(), fish4.getMy_x(), fish4.getMy_y(), null);
+
+            g2D.drawString("Level : " + map4_npc1.getHighestLevel(), map4_npc1.getX() + 18, map4_npc1.getY());
+            g2D.drawImage(map4_npc1.getImage(), map4_npc1.getX(), map4_npc1.getY(), null);
+            g2D.drawString("Level : " + map4_npc2.getHighestLevel(), map4_npc2.getX() + 18, map4_npc2.getY());
+            g2D.drawImage(map4_npc2.getImage(), map4_npc2.getX(), map4_npc2.getY(), null);
+            g2D.drawString("Level : " + map4_npc3.getHighestLevel(), map4_npc3.getX() + 18, map4_npc3.getY());
+            g2D.drawImage(map4_npc3.getImage(), map4_npc3.getX(), map4_npc3.getY(), null);
+
         } else {
             fish1.reposition(MyPlayer.getHighestLevel());
             fish2.reposition(MyPlayer.getHighestLevel());
             fish3.reposition(MyPlayer.getHighestLevel());
             fish4.reposition(MyPlayer.getHighestLevel());
+
+            map4_npc1.setAnimon(MyNPC.getAnimon());
+            map4_npc1.highestLevel();
+            map4_npc2.setAnimon(MyNPC.getAnimon());
+            map4_npc2.highestLevel();
+            map4_npc3.setAnimon(MyNPC.getAnimon());
+            map4_npc3.highestLevel();
         }
 
         g2D.drawImage(player.getImage(), player.getMy_x(), player.getMy_y(), null);
-        g2D.drawRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
+//        g2D.drawRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height);
 
         if (map == 1) {
             g2D.drawImage(fence3.getImage(), fence3.getX(), fence3.getY(), null);
             g2D.drawImage(fence4.getImage(), fence4.getX(), fence4.getY(), null);
+            g2D.drawImage(MyShop.getImageFront(), shop1.getX(), shop1.getY(), null);
 
         }
 
         if (map == 2) {
             g2D.drawImage(new ImageIcon("Map/dog_bg_tree2.png").getImage(), 0, 0, null);
+            g2D.drawImage(MyShop.getImageFront(), shop2.getX(), shop2.getY(), null);
+        }
+
+        if (map == 3) {
+            g2D.drawImage(new ImageIcon("Map/kai_front2.png").getImage(), 0, 0, null);
+            g2D.drawImage(MyShop.getImageFront(), shop3.getX(), shop3.getY(), null);
         }
 
         if (map == 4) {
             g2D.drawImage(new ImageIcon("Map/fish_front2.png").getImage(), 0, 0, null);
+            g2D.drawImage(MyShop.getImageFront(), shop4.getX(), shop4.getY(), null);
         }
 
         if (MyShop.isVisible()) {
@@ -609,61 +725,30 @@ public class MyJPanel extends JPanel implements Runnable {
             g2D.setStroke(new BasicStroke(1));
 
             g2D.setFont(new Font("Dialog", 12, 15));
+            g2D.drawImage(new ImageIcon("Item/SamllHP.png").getImage(), shopPanel.x + 10 + 5 + 10 - 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
+            g2D.drawString(shop1.getItemShop()[0].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawString(String.format("%3d", shop1.getItemShop()[0].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
 
-            g2D.drawString(shop1.getItemShop()[0].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(shop1.getItemShop()[0].getPrice() + "", shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawImage(new ImageIcon("Item/LargeHP.png").getImage(), shopPanel.x + 10 + 5 + 10 - 3, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 25, null);
+            g2D.drawString(shop1.getItemShop()[1].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawString(String.format("%3d", shop1.getItemShop()[1].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
 
-            g2D.drawString(shop1.getItemShop()[1].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(shop1.getItemShop()[1].getPrice() + "", shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawImage(new ImageIcon("Item/SamllStamina.png").getImage(), shopPanel.x + 10 + 5 + 10 - 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
+            g2D.drawString(shop1.getItemShop()[2].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawString(String.format("%3d", shop1.getItemShop()[2].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
 
-            g2D.drawString(shop1.getItemShop()[2].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(shop1.getItemShop()[2].getPrice() + "", shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawImage(new ImageIcon("Item/LargeStamina.png").getImage(), shopPanel.x + 10 + 5 + 10 - 3, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 25, null);
+            g2D.drawString(shop1.getItemShop()[3].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawString(String.format("%3d", shop1.getItemShop()[3].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
 
-            g2D.drawString(shop1.getItemShop()[3].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(shop1.getItemShop()[3].getPrice() + "", shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-
-            g2D.drawString(shop1.getItemShop()[4].getName(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(shop1.getItemShop()[4].getPrice() + "", shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawImage(new ImageIcon("Item/Aniball.png").getImage(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
+            g2D.drawString(shop1.getItemShop()[4].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
+            g2D.drawString(String.format("%3d", shop1.getItemShop()[4].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
             g2D.setFont(new Font("Dialog", 12, 12));
         }
 
         if (MyStart.isVisible()) {
-            g2D.setPaint(new Color(254, 147, 7));
-            g2D.fillRoundRect(startPanel.x, startPanel.y, startPanel.width, startPanel.height, 10, 10);
-            g2D.setPaint(new Color(128, 59, 0));
-            g2D.fillRoundRect(startPanel.x + 5, startPanel.y + 5, startPanel.width - 10, startPanel.height - 10, 10, 10);
-            g2D.setPaint(new Color(255, 210, 133));
-            g2D.fillRoundRect(startPanel.x + 10, startPanel.y + 10, startPanel.width - 20, startPanel.height - 20, 10, 10);
-            g2D.setPaint(new Color(128, 50, 11));
-
-            g2D.setFont(new Font("Dialog", 12, 14));
-            g2D.drawImage(new ImageIcon("Monster_image/dog.png").getImage(), startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25, startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6, null);
-            g2D.drawString("HP : 12", startPanel.x + 10 + 10 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 - "HP : 10".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100);
-            g2D.drawString("Stamina : 7", startPanel.x + 10 + 10 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 - "Stamina : 5".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 1);
-            g2D.drawString("ATK : 2", startPanel.x + 10 + 10 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 - "ATK : 2".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 2);
-
-            g2D.drawImage(new ImageIcon("Monster_image/chicken.png").getImage(), startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 1, startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6, null);
-            g2D.drawString("HP : 7", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 1 - "HP : 10".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100);
-            g2D.drawString("Stamina : 6", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 1 - "Stamina : 5".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 1);
-            g2D.drawString("ATK : 4", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 1 - "ATK : 2".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 2);
-
-            g2D.drawImage(new ImageIcon("Monster_image/fish.png").getImage(), startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 2, startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6, null);
-            g2D.drawString("HP : 6", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 2 - "HP : 10".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100);
-            g2D.drawString("Stamina : 5", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 2 - "Stamina : 5".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 1);
-            g2D.drawString("ATK : 5", startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 / 2 - 25 + (1360 / 2 - 20 - 10) / 3 * 2 - "ATK : 2".length(), startPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 6 + 100 + 20 * 2);
-
-            g2D.setFont(new Font("Dialog", 12, 12));
-
-            if (MyStart.getNum() == 0) {
-                g2D.drawRoundRect(startPanel.x + 10 + 5, startPanel.y + 10 + 5, (1360 / 2 - 20 - 10) / 3, (768 / 2 - 20 - 10), 10, 10);
-            }
-            if (MyStart.getNum() == 1) {
-                g2D.drawRoundRect(startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 * 1, startPanel.y + 10 + 5, (1360 / 2 - 20 - 10) / 3, (768 / 2 - 20 - 10), 10, 10);
-            }
-            if (MyStart.getNum() == 2) {
-                g2D.drawRoundRect(startPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) / 3 * 2, startPanel.y + 10 + 5, (1360 / 2 - 20 - 10) / 3, (768 / 2 - 20 - 10), 10, 10);
-            }
-
+            MyStart.paint(g);
         }
 
         if (MyMenu.isVisible()) {
@@ -676,10 +761,12 @@ public class MyJPanel extends JPanel implements Runnable {
 
         g2D.setPaint(Color.white);
 
-        g2D.drawString("Money : " + player.getMoney(), 10, 20);
+        if (!MyStart.isMenu()) {
+            g2D.drawString("Money : " + player.getMoney(), 10, 20);
 
-        g2D.drawString("z : Confirm", 1300, 20);
-        g2D.drawString("x : Cancel", 1300, 40);
+            g2D.drawString("z : Confirm", 1300, 20);
+            g2D.drawString("x : Cancel", 1300, 40);
+        }
         //g2D.setPaint(Color.red);
         //g2D.drawRect(player.getHitbox().x, player.getHitbox().y, player.getHitbox().width, player.getHitbox().height); //Draw Hitbox
         //g2D.drawLine(0, 0, 1360, 768);
@@ -692,6 +779,37 @@ public class MyJPanel extends JPanel implements Runnable {
                 if (player.hitted(shop1.getHitbox())) {
                     MyShop.setVisible(true);
                 }
+
+                if (time_to_interact == 0) {
+                    if (player.hitted(map1_npc1.getHitbox())) {
+                        enemy = map1_npc1.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map1_npc2.getHitbox())) {
+                        enemy = map1_npc2.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map1_npc3.getHitbox())) {
+                        enemy = map1_npc3.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+                }
+
+                player.hitted(map1_npc1.getHitbox());
+                player.hitted(map1_npc2.getHitbox());
+                player.hitted(map1_npc3.getHitbox());
+
                 player.hitted(fence1.getHitbox()[0]);
                 player.hitted(fence1.getHitbox()[1]);
                 player.hitted(fence2.getHitbox()[0]);
@@ -708,7 +826,36 @@ public class MyJPanel extends JPanel implements Runnable {
 
                 }
                 if (time_to_interact == 0) {
-                    if (player.hitted(dog1.getHitbox())) {
+
+                    if (player.getHitbox().intersects(dog1.getOrigin())) {
+                        dog1.setMoveto_player(true);
+                        dog1.move_to_player(player.getHitbox());
+                    } else {
+                        dog1.setMoveto_player(false);
+                    }
+
+                    if (player.getHitbox().intersects(dog2.getOrigin())) {
+                        dog2.setMoveto_player(true);
+                        dog2.move_to_player(player.getHitbox());
+                    } else {
+                        dog2.setMoveto_player(false);
+                    }
+
+                    if (player.getHitbox().intersects(dog3.getOrigin())) {
+                        dog3.setMoveto_player(true);
+                        dog3.move_to_player(player.getHitbox());
+                    } else {
+                        dog3.setMoveto_player(false);
+                    }
+
+                    if (player.getHitbox().intersects(dog4.getOrigin())) {
+                        dog4.setMoveto_player(true);
+                        dog4.move_to_player(player.getHitbox());
+                    } else {
+                        dog4.setMoveto_player(false);
+                    }
+
+                    if (player.hitted(dog1.getHitbox2())) {
 
                         enemy[0] = dog1.getAnimon();
                         MyBattle.setListEnemy(enemy);
@@ -716,7 +863,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             MyBattle.setVisible(true);
                         }
 
-                    } else if (player.hitted(dog2.getHitbox())) {
+                    } else if (player.hitted(dog2.getHitbox2())) {
 
                         enemy[0] = dog2.getAnimon();
                         MyBattle.setListEnemy(enemy);
@@ -724,7 +871,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             MyBattle.setVisible(true);
                         }
 
-                    } else if (player.hitted(dog3.getHitbox())) {
+                    } else if (player.hitted(dog3.getHitbox2())) {
 
                         enemy[0] = dog3.getAnimon();
                         MyBattle.setListEnemy(enemy);
@@ -732,7 +879,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             MyBattle.setVisible(true);
                         }
 
-                    } else if (player.hitted(dog4.getHitbox())) {
+                    } else if (player.hitted(dog4.getHitbox2())) {
 
                         enemy[0] = dog4.getAnimon();
                         MyBattle.setListEnemy(enemy);
@@ -741,7 +888,35 @@ public class MyJPanel extends JPanel implements Runnable {
                         }
 
                     }
+
+                    if (player.hitted(map2_npc1.getHitbox())) {
+                        enemy = map2_npc1.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map2_npc2.getHitbox())) {
+                        enemy = map2_npc2.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map2_npc3.getHitbox())) {
+                        enemy = map2_npc3.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
                 }
+                player.hitted(map2_npc1.getHitbox());
+                player.hitted(map2_npc2.getHitbox());
+                player.hitted(map2_npc3.getHitbox());
 
                 player.hitted(map2_hitbox1.getHitbox());
                 player.hitted(map2_hitbox2.getHitbox());
@@ -883,6 +1058,74 @@ public class MyJPanel extends JPanel implements Runnable {
                     MyShop.setVisible(true);
                 }
 
+                if (player.hitted(chick1.getHitbox2())) {
+                    enemy[0] = chick1.getAnimon();
+                    MyBattle.setListEnemy(enemy);
+                    if (!MyBattle.isVisible()) {
+                        MyBattle.setVisible(true);
+                    }
+                }
+
+                if (player.hitted(chick2.getHitbox2())) {
+                    enemy[0] = chick2.getAnimon();
+                    MyBattle.setListEnemy(enemy);
+                    if (!MyBattle.isVisible()) {
+                        MyBattle.setVisible(true);
+                    }
+                }
+
+                if (player.hitted(chick3.getHitbox2())) {
+                    enemy[0] = chick3.getAnimon();
+                    MyBattle.setListEnemy(enemy);
+                    if (!MyBattle.isVisible()) {
+                        MyBattle.setVisible(true);
+                    }
+                }
+
+                if (player.hitted(chick4.getHitbox2())) {
+                    enemy[0] = chick4.getAnimon();
+                    MyBattle.setListEnemy(enemy);
+                    if (!MyBattle.isVisible()) {
+                        MyBattle.setVisible(true);
+                    }
+                }
+
+                if (time_to_interact == 0) {
+                    if (player.hitted(map3_npc1.getHitbox())) {
+                        enemy = map3_npc1.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map3_npc2.getHitbox())) {
+                        enemy = map3_npc2.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map3_npc3.getHitbox())) {
+                        enemy = map3_npc3.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+                }
+                player.hitted(map3_npc1.getHitbox());
+                player.hitted(map3_npc2.getHitbox());
+                player.hitted(map3_npc3.getHitbox());
+
+                player.hitted(map3_hitbox1.getHitbox());
+
+                chick1.hitted(player.getHitbox());
+                chick2.hitted(player.getHitbox());
+                chick3.hitted(player.getHitbox());
+                chick4.hitted(player.getHitbox());
+
             }
             case 4 -> {
                 if (player.hitted(shop4.getHitbox())) {
@@ -901,13 +1144,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             }
                         }
                     } else {
-                        if (fish1.isLeave_origin()) {
-                            fish1.setMoveto_player(true);
-                            fish1.move_to_player(fish1.getOrigin());
-                        } else {
-                            fish1.setMoveto_player(false);
-                        }
-
+                        fish1.setMoveto_player(false);
                     }
 
                     if (player.getHitbox().intersects(map4_hitboxfish2.getHitbox())) {
@@ -921,13 +1158,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             }
                         }
                     } else {
-                        if (fish2.isLeave_origin()) {
-                            fish2.setMoveto_player(true);
-                            fish2.move_to_player(fish2.getOrigin());
-                        } else {
-                            fish2.setMoveto_player(false);
-                        }
-
+                        fish2.setMoveto_player(false);
                     }
 
                     if (player.getHitbox().intersects(map4_hitboxfish3.getHitbox())) {
@@ -942,13 +1173,7 @@ public class MyJPanel extends JPanel implements Runnable {
                             }
                         }
                     } else {
-                        if (fish3.isLeave_origin()) {
-                            fish3.setMoveto_player(true);
-                            fish3.move_to_player(fish3.getOrigin());
-                        } else {
-                            fish3.setMoveto_player(false);
-                        }
-
+                        fish3.setMoveto_player(false);
                     }
 
                     if (player.getHitbox().intersects(map4_hitboxfish4.getHitbox())) {
@@ -963,15 +1188,37 @@ public class MyJPanel extends JPanel implements Runnable {
                             }
                         }
                     } else {
-                        if (fish4.isLeave_origin()) {
-                            fish4.setMoveto_player(true);
-                            fish4.move_to_player(fish4.getOrigin());
-                        } else {
-                            fish4.setMoveto_player(false);
-                        }
+                        fish4.setMoveto_player(false);
+                    }
 
+                    if (player.hitted(map4_npc1.getHitbox())) {
+                        enemy = map4_npc1.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map4_npc2.getHitbox())) {
+                        enemy = map4_npc2.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
+                    }
+
+                    if (player.hitted(map4_npc3.getHitbox())) {
+                        enemy = map4_npc3.getCurrentAnimon();
+                        MyBattle.setListEnemy(enemy);
+                        if (!MyBattle.isVisible()) {
+                            MyBattle.setVisible(true);
+                        }
                     }
                 }
+                player.hitted(map4_npc1.getHitbox());
+                player.hitted(map4_npc2.getHitbox());
+                player.hitted(map4_npc3.getHitbox());
+
                 player.hitted(map4_hitbox1.getHitbox());
                 player.hitted(map4_hitbox2.getHitbox());
                 player.hitted(map4_hitbox3.getHitbox());
@@ -1024,6 +1271,7 @@ public class MyJPanel extends JPanel implements Runnable {
         if (!MyShop.isVisible() && !MyStart.isVisible() && !MyMenu.isVisible() && !MyBattle.isVisible()) {
             player.setSpeed(5);
             player.movement(ct);
+            player.setTime_animation(player.getTime_animation()-1);
 
             if (time_to_interact == 0 && ct.button_x && !MyMenu.isVisible()) {
                 MyMenu.setVisible(true);
@@ -1033,6 +1281,10 @@ public class MyJPanel extends JPanel implements Runnable {
             shop1.selected(ct, player);
             time_to_interact = 30;
         } else if (MyStart.isVisible()) {
+            if (MyStart.isStart_newgame()) {
+                player = new MyPlayer();
+                player.setAnimation(animation);
+            }
             MyStart.selected(ct, player);
             time_to_interact = 30;
         } else if (MyMenu.isVisible()) {
@@ -1043,30 +1295,51 @@ public class MyJPanel extends JPanel implements Runnable {
             time_to_interact = 30;
         }
 
+        if (MyStart.getAnimon() != null) {
+            player.setAnimals(MyStart.getAnimon(), 0);
+            MyStart.setAnimon(null);
+        }
+
         player.updateMap(map);
 
         // fix to hitbox
-        if ((player.getMy_x() >= 1360 - player.getMy_Width() && player.getMy_x() <= 1360 - player.getMy_Width() + 10 && player.getMy_y() >= 768 / 2 - player.getMy_Height() && player.getMy_y() <= 768 / 2 + player.getMy_Height()) && map == 1) {
-            map = 2;
-            player.setMy_x(player.getMy_Width() / 2);
-        } else if ((player.getMy_x() >= 0 && player.getMy_x() <= player.getMy_Width() / 2 - 10 && player.getMy_y() >= 768 / 2 - player.getMy_Height() && player.getMy_y() <= 768 / 2 + player.getMy_Height()) && map == 2) {
-            map = 1;
-            player.setMy_x(1360 - player.getMy_Width() * 2 - 5);
-        } else if ((player.getMy_x() >= 1360 / 2 - player.getMy_Width() && player.getMy_x() <= 1360 / 2 + player.getMy_Width() && player.getMy_y() >= 0 && player.getMy_y() <= player.getMy_Height() / 2 && map == 1)) {
-            map = 3;
-            player.setMy_y(768 - player.getMy_Height() * 2);
-        } else if ((player.getMy_x() >= 1360 / 2 - player.getMy_Width() && player.getMy_x() <= 1360 / 2 + player.getMy_Width() && player.getMy_y() >= 768 - player.getMy_Height() * 2 + 25 && player.getMy_y() <= 768) && map == 3) {
-            map = 1;
-            player.setMy_y(player.getMy_Height() + 5);
-        } else if ((player.getMy_x() >= 0 && player.getMy_x() <= player.getMy_Width() / 2 - 10 && player.getMy_y() >= 768 / 2 - player.getMy_Height() && player.getMy_y() <= 768 / 2 + player.getMy_Height()) && map == 1) {
-            map = 4;
-            player.setMy_x(1360 - player.getMy_Width() * 2 - 5);
-        } else if ((player.getMy_x() >= 1360 - player.getMy_Width() && player.getMy_x() <= 1360 - player.getMy_Width() + 10 && player.getMy_y() >= 768 / 2 - player.getMy_Height() && player.getMy_y() <= 768 / 2 + player.getMy_Height()) && map == 4) {
-            map = 1;
-            player.setMy_x(player.getMy_Width() / 2);
+        switch (map) {
+            case 1 -> {
+                if (player.getHitbox().intersects(door1_dog)) {
+                    map = 2;
+                    player.setMy_x(10 + 5);
+                } else if (player.getHitbox().intersects(door1_bird)) {
+                    map = 3;
+                    player.setMy_y(768 - 90 - 30);
+                } else if (player.getHitbox().intersects(door1_fish)) {
+                    map = 4;
+                    player.setMy_x(1360 - 60 - 30);
+                }
+            }
+
+            case 2 -> {
+                if (player.getHitbox().intersects(door2_back)) {
+                    map = 1;
+                    player.setMy_x(1360 - 60 - 40);
+                }
+            }
+
+            case 3 -> {
+                if (player.getHitbox().intersects(door3_back)) {
+                    map = 1;
+                    player.setMy_y(10 + 5);
+                }
+            }
+
+            case 4 -> {
+                if (player.getHitbox().intersects(door4_back)) {
+                    map = 1;
+                    player.setMy_x(10 + 10);
+                }
+            }
+
         }
 
-        //player.setBounds(player.getMy_x(), player.getMy_y(), player.getMy_Width(), player.getMy_Height());
     }
 
     @Override
@@ -1089,6 +1362,7 @@ public class MyJPanel extends JPanel implements Runnable {
                     drawing = 90;
                     MyMenu.setTime(MyMenu.getTime() - 1);
                     MyBattle.setTime(MyBattle.getTime() - 1);
+                    MyStart.setTime(MyStart.getTime() - 1);
                 } else {
                     drawTime = 1000 / FPS;
                     nextTime = System.currentTimeMillis() + drawTime;
@@ -1119,4 +1393,11 @@ public class MyJPanel extends JPanel implements Runnable {
         MyJPanel.time_to_interact = time_to_interact;
     }
 
+    public static void setMap(int map) {
+        MyJPanel.map = map;
+    }
+
+    public static void setEnemy(Animon[] animon) {
+        MyJPanel.enemy = animon;
+    }
 }

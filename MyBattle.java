@@ -68,6 +68,10 @@ public class MyBattle {
         
         count_enemy();
         if(count_enemy != 0){setEnemy(listEnemy[count_enemy-1]);}
+        
+        if (MyBattle.visible == false){
+            MyJPanel.setEnemy(new Animon[3]);
+        }
 
         menuPanel.x = 1360 / 4;
         menuPanel.y = 768 / 4;
@@ -80,7 +84,7 @@ public class MyBattle {
         g2D.setPaint(new Color(230, 230, 230));
         g2D.fillRect(0, 0, 1360, 768);
 
-        g2D.drawImage(enemy.getImage(), 1360 / 2, 768 / 2, null);
+        g2D.drawImage(enemy.getImageBattleEnemy(), 0, 0, null);
         if (!chose_animon) {
             //GUI STATUS Enemy
             g2D.drawImage(new ImageIcon("enemy_frame.png").getImage(), 167 + 15 + 25, 768 / 3 + 15 - 768 / 4 - 40 + 15, null);
@@ -109,7 +113,7 @@ public class MyBattle {
             g2D.drawImage(new ImageIcon("Hp_Bar.png").getImage(), 150 + 15 + 50 + 30, 768 / 3 + 15 - 768 / 4 - 30 + 10 + 15 + 35 + 15, null);
 
             //GUI STATUS Player
-            g2D.drawImage(player.getAnimals()[num_animon].getImage(), 200, (768 - 768 / 3 + 20) - 100, null);
+            g2D.drawImage(player.getAnimals()[num_animon].getImageBattleMine(), 0, 0, null);
             g2D.drawImage(new ImageIcon("player_frame.png").getImage(), 1360 / 2 + 15 + 25, 768 - 768 / 4 + 15 - 768 / 3 - 40 + 15, null);
             g2D.setPaint(new Color(32, 56, 0));
             g2D.fillRoundRect(1360 / 2 + 15 + 50, 768 - 768 / 4 + 15 - 768 / 3 - 30 + 15, 1360 / 3 - 30, 768 / 4 - 30, 10, 10);
@@ -524,7 +528,7 @@ public class MyBattle {
         int count_animon = 0;
         for (int i = 0; i < listEnemy.length; i++) {
             if (listEnemy[i] != null){
-                if (!listEnemy[i].dead){
+                if (!listEnemy[i].dead_before){
                     count_animon ++;
                 }
             }
@@ -553,10 +557,15 @@ public class MyBattle {
                 return deadall;
             }
         }
+        System.out.println(deadall);
         return deadall;
     }
 
     public static void selected(MyController ct, Player player) {
+        if (count_enemy == 0){
+            end = true;
+        }
+        
         if (player.getAnimals()[num_animon].dead) {
             if (!Deadall(player)) {
                 start = true;
@@ -877,5 +886,11 @@ public class MyBattle {
         }
 
     }
+
+    public static int getCount_enemy() {
+        return count_enemy;
+    }
+    
+    
 
 }

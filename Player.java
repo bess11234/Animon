@@ -8,15 +8,20 @@ public class Player implements Serializable{
     private transient Item[][] inventory;
     private int count_animals;
     private static int highestLevel;
-    private int count_potionHPS = 0;
-    private int count_potionHPL = 0;
-    private int count_potionSTS = 0;
-    private int count_potionSTL = 0;
-    private int count_aniball = 0;
+    private int count_potionHPS;
+    private int count_potionHPL;
+    private int count_potionSTS;
+    private int count_potionSTL;
+    private int count_aniball;
 
     public Player() {
         this.animals = new Animon[3];
         this.money = 500;
+        count_potionHPS = 0;
+        count_potionHPL = 0;
+        count_potionSTS = 0;
+        count_potionSTL = 0;
+        count_aniball = 0;
         this.inventory = new Item[5][100];
         this.count_animals = 0;
         highestLevel = 1;

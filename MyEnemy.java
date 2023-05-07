@@ -15,7 +15,7 @@ public class MyEnemy implements Runnable {
 
     private final int origin_x;
     private final int origin_y;
-    private Rectangle hitbox = new Rectangle(), rect_up = new Rectangle(), rect_down = new Rectangle(), rect_left = new Rectangle(), rect_right = new Rectangle();
+    private Rectangle hitbox = new Rectangle(), rect_up = new Rectangle(), rect_down = new Rectangle(), rect_left = new Rectangle(), rect_right = new Rectangle(), hitbox2 = new Rectangle();
     private int my_x;
     private int my_y;
     private Animon animon;
@@ -29,6 +29,7 @@ public class MyEnemy implements Runnable {
     private boolean re_animon;
     private boolean leave_origin;
     private boolean moveto_player;
+    private boolean moveable;
 
     private int move;
     // It need to be in class Animon
@@ -92,6 +93,9 @@ public class MyEnemy implements Runnable {
         origin_x = x;
         origin_y = y;
         this.animon = animon;
+        
+        moveable = true;
+        leave_origin = false;
 
         origin.x = x - 50;
         origin.y = y - 50;
@@ -102,6 +106,11 @@ public class MyEnemy implements Runnable {
         hitbox.y = my_y + 16 * 2;
         hitbox.width = 16;
         hitbox.height = 16;
+        
+        hitbox2.x = my_x;
+        hitbox2.y = my_y;
+        hitbox2.width = 50;
+        hitbox2.height = 50;
         //this.animon = animon;
         //this.setBackground(Color.red);
     }
@@ -111,6 +120,11 @@ public class MyEnemy implements Runnable {
         hitbox.y = my_y + 16 * 2;
         hitbox.width = 16;
         hitbox.height = 16;
+        
+        hitbox2.x = my_x;
+        hitbox2.y = my_y;
+        hitbox2.width = 50;
+        hitbox2.height = 50;
 
         rect_up.x = rect.x;
         rect_up.width = rect.width;
@@ -149,6 +163,7 @@ public class MyEnemy implements Runnable {
     }
 
     public void move_to_player(Rectangle player) {
+        speed = 5;
         ArrayList<Integer> move_left_down = new ArrayList<Integer>();
         move_left_down.add(1);
         move_left_down.add(7);
@@ -215,34 +230,58 @@ public class MyEnemy implements Runnable {
     }
 
     public void movement() {
+        
 
         if (!hitbox.intersects(origin)) {
             leave_origin = true;
         } else {
             leave_origin = false;
         }
+        
         if (isDead()) {
             speed = 0;
             my_x = 9999;
             my_y = 9999;
         }
-        if (move == 1 || move == 5 || move == 7) {
-            this.setMy_x(my_x - speed);
-        }
-        if (move == 2 || move == 6 || move == 8) {
-            this.setMy_x(my_x + speed);
-        }
-        if (move == 3 || move == 5 || move == 6) {
-            this.setMy_y(my_y - speed);
-        }
-        if (move == 4 || move == 7 || move == 8) {
-            this.setMy_y(my_y + speed);
-        }
+        if (moveable){
+            if (move == 1 || move == 5 || move == 7) {
+                this.setMy_x(my_x - speed);
+            }
+            if (move == 2 || move == 6 || move == 8) {
+                this.setMy_x(my_x + speed);
+            }
+            if (move == 3 || move == 5 || move == 6) {
+                this.setMy_y(my_y - speed);
+            }
+            if (move == 4 || move == 7 || move == 8) {
+                this.setMy_y(my_y + speed);
+            }
 
-        if (!leave_origin) {
-            random_move();
+            if (!leave_origin && !moveto_player) {
+                random_move();
+            } else if (leave_origin && !moveto_player) {
+                move_to_player(origin);
+            }
         }
+        
 
+    }
+
+    public boolean isMoveto_player() {
+        return moveto_player;
+    }
+
+    public void setMoveto_player(boolean moveto_player) {
+        this.moveto_player = moveto_player;
+        if (this.moveto_player){
+            speed = 8;
+        }else{
+            speed = 3;
+        }
+    }
+
+    public Rectangle getHitbox2() {
+        return hitbox2;
     }
 
     public int getSpeed() {
@@ -284,15 +323,15 @@ public class MyEnemy implements Runnable {
 
     public void setMy_x(int x) {
         my_x = x;
-        if (my_x + my_width > origin_x + my_width + 50 && !isDead() && !moveto_player && !leave_origin) {
+        if (my_x + my_width > origin_x + my_width + 50 && !isDead() && !leave_origin && !moveto_player) {
             my_x = origin_x + my_width + 50 - my_width;
-        } else if (my_x < origin_x - 50 && !isDead() && !moveto_player && !leave_origin) {
+        } else if (my_x < origin_x - 50 && !isDead() && !leave_origin && !moveto_player) {
             my_x = origin_x - 50;
         }
 
         if (my_x < 0 && !isDead() && !moveto_player) {
             my_x = 0;
-        } else if (my_x + my_width > 1360 && !isDead() && !moveto_player && !leave_origin) {
+        } else if (my_x + my_width > 1360 && !isDead() && !leave_origin && !moveto_player) {
             my_x = 1360 - my_width;
         }
 
@@ -304,31 +343,18 @@ public class MyEnemy implements Runnable {
 
     public void setMy_y(int y) {
         my_y = y;
-        if (my_y + my_height > origin_y + my_height + 50 && !isDead() && !moveto_player && !leave_origin) {
+        if (my_y + my_height > origin_y + my_height + 50 && !isDead() && !leave_origin && !moveto_player) {
             my_y = origin_y + my_height + 50 - my_height;
-        } else if (my_y < origin_y - 50 && !isDead() && !moveto_player && !leave_origin) {
+        } else if (my_y < origin_y - 50 && !isDead() && !leave_origin && !moveto_player) {
             my_y = origin_y - 50;
         }
 
         if (my_y < 0 && !isDead() && !moveto_player) {
             my_y = 0;
-        } else if (my_y + my_height > 768 && !isDead() && !moveto_player && !leave_origin) {
+        } else if (my_y + my_height > 768 && !isDead() && !leave_origin && !moveto_player) {
             my_y = 768 - my_height;
         }
 
-    }
-
-    public boolean isMoveto_player() {
-        return moveto_player;
-    }
-
-    public void setMoveto_player(boolean moveto_player) {
-        this.moveto_player = moveto_player;
-        if (moveto_player){
-            speed = 5;
-        }else{
-            speed = 3;
-        }
     }
 
     public int getMy_y() {
@@ -362,6 +388,16 @@ public class MyEnemy implements Runnable {
     public boolean isDead() {
         return animon.dead_before;
     }
+
+    public boolean isMoveable() {
+        return moveable;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
+    }
+    
+    
 
     public void run() {
         long drawTime = 1000 / FPS;

@@ -168,6 +168,8 @@ public abstract class Animon implements Attackable, Serializable {
     }
 
     public abstract Image getImage();
+    public abstract Image getImageBattleMine();
+    public abstract Image getImageBattleEnemy();
 
     public abstract String[] getListSkill();
 }

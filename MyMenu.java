@@ -249,7 +249,7 @@ public class MyMenu {
         }
 
         g2D.drawLine(menuPanel.x + menuPanel.width / 4, menuPanel.y + 10 + (menuPanel.height - 20) / 3 + (menuPanel.height - 20) / 3, menuPanel.x + menuPanel.width / 4 + menuPanel.width - menuPanel.width / 4 - 10, menuPanel.y + 10 + (menuPanel.height - 20) / 3 + (menuPanel.height - 20) / 3);
-        g2D.setFont(new Font("Dialog", 12, 12));
+        
 
         g2D.setPaint(Color.white);
         g2D.setStroke(new BasicStroke(2));
@@ -263,35 +263,42 @@ public class MyMenu {
                     g2D.drawRect(menuPanel.x + 10 + 5, menuPanel.y + 10 + 30 * 2 + 5, menuPanel.width / 4 - 20 - 10, 35 - 10);
             }
         } else {
-            visible = true;
-            g2D.setPaint(new Color(254, 147, 7));
-            g2D.fillRect(menuPanel.x, menuPanel.y - 100, menuPanel.width, 95);
-            g2D.setPaint(new Color(128, 59, 0));
-            g2D.fillRect(menuPanel.x + 5, menuPanel.y - 100 + 5, menuPanel.width - 10, 95 - 10);
-            g2D.setPaint(new Color(255, 210, 133));
-            g2D.fillRect(menuPanel.x + 10, menuPanel.y - 100 + 10, menuPanel.width - 20, 95 - 20);
-            g2D.setPaint(new Color(128, 50, 11));
 
-            g2D.drawString("Potion HP(S)             : " + player.getCount_potionHPS(), menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 1);
-            g2D.drawString("Potion HP(L)             : " + player.getCount_potionHPL(), menuPanel.x + 10 + 5 + 200, menuPanel.y - 100 + 25 * 1);
-            g2D.drawString("Potion Stamina(S)   : " + player.getCount_potionSTS(), menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 2);
-            g2D.drawString("Potion Stamina(L)   : " + player.getCount_potionSTL(), menuPanel.x + 10 + 5 + 200, menuPanel.y - 100 + 25 * 2);
+            g2D.setPaint(new Color(254, 147, 7));
+            g2D.fillRect(menuPanel.x, menuPanel.y - 100 - 25, menuPanel.width, 95 + 25);
+            g2D.setPaint(new Color(128, 59, 0));
+            g2D.fillRect(menuPanel.x + 5, menuPanel.y - 100 + 5 - 25, menuPanel.width - 10, 95 - 10 + 25);
+            g2D.setPaint(new Color(255, 210, 133));
+            g2D.fillRect(menuPanel.x + 10, menuPanel.y - 100 + 10 - 25, menuPanel.width - 20, 95 - 20 + 25);
+            g2D.setPaint(new Color(128, 50, 11));
+            
+            g2D.setFont(new Font("Dialog", 12, 15));
+            g2D.drawString("   Potion HP(S)", menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 1 - 15);
+            g2D.drawString(String.format("%02d", player.getCount_potionHPS()), menuPanel.x + 10 + 5 + 150 + 50, menuPanel.y - 100 + 25 * 1 - 15);
+            g2D.drawString("   Potion HP(L)", menuPanel.x + 10 + 5 + 350, menuPanel.y - 100 + 25 * 1 - 15);
+            g2D.drawString(String.format("%02d", player.getCount_potionHPL()), menuPanel.x + 10 + 5 + 350 + 150 + 50, menuPanel.y - 100 + 25 * 1 - 15);
+            g2D.drawString("   Potion Stamina(S)", menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 2 - 10);
+            g2D.drawString(String.format("%02d", player.getCount_potionSTS()), menuPanel.x + 10 + 5 + 150 + 50, menuPanel.y - 100 + 25 * 2 - 10);
+            g2D.drawString("   Potion Stamina(L)", menuPanel.x + 10 + 5 + 350, menuPanel.y - 100 + 25 * 2 - 10);
+            g2D.drawString(String.format("%02d", player.getCount_potionSTL()), menuPanel.x + 10 + 5 + 350 + 150 + 50, menuPanel.y - 100 + 25 * 2 - 10);
 
             g2D.setPaint(new Color(212, 135, 97));
-            g2D.drawString("AniBall                        : " + player.getCount_aniball(), menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 3);
+            g2D.drawString("   AniBall", menuPanel.x + 10 + 5, menuPanel.y - 100 + 25 * 3 - 5);
+            g2D.drawString(String.format("%02d", player.getCount_aniball()), menuPanel.x + 10 + 5 + 150 + 50, menuPanel.y - 100 + 25 * 3 - 5);
             g2D.setPaint(Color.white);
             g2D.setStroke(new BasicStroke(2));
+            
 
             if (!use_item) {
                 switch (num) {
                     case 0 ->
-                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8 + 20, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 4 + 5, menuPanel.y - 100 + 10 + 2 - 20, 220, 25);
                     case 1 ->
-                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 2, 135 - 8 + 20, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 350 + 4 + 5, menuPanel.y - 100 + 10 + 2 - 20, 220, 25);
                     case 2 ->
-                        g2D.drawRect(menuPanel.x + 10 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8 + 20, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 4 + 5, menuPanel.y - 100 + 10 + 25 * 1 + 2 - 15, 220, 25);
                     case 3 ->
-                        g2D.drawRect(menuPanel.x + 10 + 200 + 4, menuPanel.y - 100 + 10 + 25 * 1 + 2, 135 - 8 + 20, 25 - 4);
+                        g2D.drawRect(menuPanel.x + 10 + 350 + 4 + 5, menuPanel.y - 100 + 10 + 25 * 1 + 2 - 15, 220, 25);
                 }
             } else {
                 switch (num) {
@@ -304,7 +311,6 @@ public class MyMenu {
                 }
             }
             g2D.setStroke(new BasicStroke(1));
-
         }
         
         if (save && time > 0){
@@ -322,6 +328,7 @@ public class MyMenu {
         }else{
             save = false;
         }
+        g2D.setFont(new Font("Dialog", 12, 12));
 
     }
 

@@ -4,8 +4,10 @@ import javax.swing.ImageIcon;
 
 public class Birdmon extends Animon {
 
-    static Image image = new ImageIcon("Monster_image/chicken.png").getImage();
-    String[] listSkill;
+    private static final Image image = new ImageIcon("Monster_image/chicken.png").getImage();
+    private static final Image image_battle_mine = new ImageIcon("Monster_image/kai_mine.png").getImage();
+    private static final Image image_battle_enemy = new ImageIcon("Monster_image/kai_ene.png").getImage();
+    private String[] listSkill;
 
     public Birdmon(int level) {
         super(level);
@@ -49,4 +51,14 @@ public class Birdmon extends Animon {
     public String[] getListSkill() {
         return listSkill;
     }
+
+    public Image getImageBattleMine() {
+        return image_battle_mine;
+    }
+
+    public Image getImageBattleEnemy() {
+        return image_battle_enemy;
+    }
+
+
 }

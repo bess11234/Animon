@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 public class MyController implements KeyListener {
 
     public boolean up, down, left, right, button_z, button_x;
+    public String passed_before = "";
 
     public void keyTyped(KeyEvent ke) {
     }
@@ -28,15 +29,19 @@ public class MyController implements KeyListener {
         }
         if (ke.getKeyCode() == 37) {
             left = true;
+            passed_before = "left";
         }
         if (ke.getKeyCode() == 38) {
             up = true;
+            passed_before = "up";
         }
         if (ke.getKeyCode() == 39) {
             right = true;
+            passed_before = "right";
         }
         if (ke.getKeyCode() == 40) {
             down = true;
+            passed_before = "down";
         }
     }
 

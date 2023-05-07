@@ -5,7 +5,9 @@ import javax.swing.ImageIcon;
 
 public class Dogmon extends Animon {
 
-    static Image image = new ImageIcon("Monster_image/dog.png").getImage();
+    private static final Image image = new ImageIcon("Monster_image/dog.png").getImage();
+    private static final Image image_battle_mine = new ImageIcon("Monster_image/dog_mine.png").getImage();
+    private static final Image image_battle_enemy = new ImageIcon("Monster_image/dog_ene.png").getImage();
     String[] listSkill;
 
     public Dogmon(int level) {
@@ -48,4 +50,13 @@ public class Dogmon extends Animon {
     public String[] getListSkill() {
         return listSkill;
     }
+
+    public Image getImageBattleMine() {
+        return image_battle_mine;
+    }
+
+    public Image getImageBattleEnemy() {
+        return image_battle_enemy;
+    }
+
 }

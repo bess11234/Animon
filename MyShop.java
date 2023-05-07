@@ -19,17 +19,22 @@ public class MyShop extends Shop {
     private static int num;
     private static boolean visible;
     private static int time;
+    private static Image image_back, image_front;
 
     public MyShop(int x, int y) {
         this.x = x;
         this.y = y;
-        hitbox.x = x;
-        hitbox.y = y;
-        hitbox.width = 50;
-        hitbox.height = 50;
+        hitbox.x = x + 10;
+        hitbox.y = y + 70;
+        hitbox.width = 80;
+        hitbox.height = 30;
         num = 0;
         time = 2;
         visible = false;
+        image_back = new ImageIcon("shop.png").getImage();
+        image_back = image_back.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        image_front = new ImageIcon("shop_front.png").getImage();
+        image_front = image_front.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
     }
 
     public Rectangle getHitbox() {
@@ -56,6 +61,14 @@ public class MyShop extends Shop {
 
     public static int getNum() {
         return num;
+    }
+    
+    public static Image getImageBack(){
+        return image_back;
+    }
+    
+    public static Image getImageFront(){
+        return image_front;
     }
 
     public static void setNum(int num) {

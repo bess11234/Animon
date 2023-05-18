@@ -7,7 +7,7 @@ public class Fishmon extends Animon {
     private static final Image image = new ImageIcon("Monster_image/fish.png").getImage();
     private static final Image image_battle_mine = new ImageIcon("Monster_image/fish_mine.png").getImage();
     private static final Image image_battle_enemy = new ImageIcon("Monster_image/fish_ene.png").getImage();
-    String[] listSkill;
+    private String[] listSkill;
 
     public Fishmon(int level) {
         super(level);

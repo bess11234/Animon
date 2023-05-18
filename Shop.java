@@ -1,5 +1,5 @@
 public class Shop {
-    private Item[] itemShop;
+    protected static Item[] itemShop;
     
     public void sellItem(Player player, int num){
         if (player.getMoney() >= itemShop[num].getPrice() ){

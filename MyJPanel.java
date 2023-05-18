@@ -7,15 +7,8 @@
  *
  * @author bess1123
  */
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.io.*;
-import java.util.Arrays;
 import java.util.Random;
 import javax.swing.*;
 
@@ -695,56 +688,7 @@ public class MyJPanel extends JPanel implements Runnable {
         }
 
         if (MyShop.isVisible()) {
-            g2D.setPaint(new Color(254, 147, 7));
-            g2D.fillRoundRect(shopPanel.x, shopPanel.y, shopPanel.width, shopPanel.height, 10, 10);
-            g2D.setPaint(new Color(128, 59, 0));
-            g2D.fillRoundRect(shopPanel.x + 5, shopPanel.y + 5, shopPanel.width - 10, shopPanel.height - 10, 10, 10);
-            g2D.setPaint(new Color(255, 210, 133));
-            g2D.fillRoundRect(shopPanel.x + 10, shopPanel.y + 10, shopPanel.width - 20, shopPanel.height - 20, 10, 10);
-            g2D.setPaint(new Color(128, 50, 11));
-
-            g2D.setPaint(Color.white);
-            g2D.setStroke(new BasicStroke(2));
-
-            if (MyShop.getNum() == 0) {
-                g2D.drawRoundRect(shopPanel.x + 10 + 5, shopPanel.y + 10 + 5, (1360 / 2 - 20 - 10), (768 / 2 - 20 - 10) / 5, 10, 10);
-            }
-            if (MyShop.getNum() == 1) {
-                g2D.drawRoundRect(shopPanel.x + 10 + 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1, (1360 / 2 - 20 - 10), (768 / 2 - 20 - 10) / 5, 10, 10);
-            }
-            if (MyShop.getNum() == 2) {
-                g2D.drawRoundRect(shopPanel.x + 10 + 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2, (1360 / 2 - 20 - 10), (768 / 2 - 20 - 10) / 5, 10, 10);
-            }
-            if (MyShop.getNum() == 3) {
-                g2D.drawRoundRect(shopPanel.x + 10 + 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3, (1360 / 2 - 20 - 10), (768 / 2 - 20 - 10) / 5, 10, 10);
-            }
-            if (MyShop.getNum() == 4) {
-                g2D.drawRoundRect(shopPanel.x + 10 + 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4, (1360 / 2 - 20 - 10), (768 / 2 - 20 - 10) / 5, 10, 10);
-            }
-            g2D.setPaint(new Color(128, 50, 11));
-            g2D.setStroke(new BasicStroke(1));
-
-            g2D.setFont(new Font("Dialog", 12, 15));
-            g2D.drawImage(new ImageIcon("Item/SamllHP.png").getImage(), shopPanel.x + 10 + 5 + 10 - 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
-            g2D.drawString(shop1.getItemShop()[0].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(String.format("%3d", shop1.getItemShop()[0].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-
-            g2D.drawImage(new ImageIcon("Item/LargeHP.png").getImage(), shopPanel.x + 10 + 5 + 10 - 3, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 25, null);
-            g2D.drawString(shop1.getItemShop()[1].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(String.format("%3d", shop1.getItemShop()[1].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 1 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-
-            g2D.drawImage(new ImageIcon("Item/SamllStamina.png").getImage(), shopPanel.x + 10 + 5 + 10 - 5, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
-            g2D.drawString(shop1.getItemShop()[2].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(String.format("%3d", shop1.getItemShop()[2].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 2 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-
-            g2D.drawImage(new ImageIcon("Item/LargeStamina.png").getImage(), shopPanel.x + 10 + 5 + 10 - 3, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 25, null);
-            g2D.drawString(shop1.getItemShop()[3].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(String.format("%3d", shop1.getItemShop()[3].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 3 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-
-            g2D.drawImage(new ImageIcon("Item/Aniball.png").getImage(), shopPanel.x + 10 + 5 + 10, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5 - 30, null);
-            g2D.drawString(shop1.getItemShop()[4].getName(), shopPanel.x + 10 + 5 + 10 + 45, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.drawString(String.format("%3d", shop1.getItemShop()[4].getPrice()), shopPanel.x + 10 + 5 + (1360 / 2 - 20 - 10) - 50, shopPanel.y + 10 + 5 + (768 / 2 - 20 - 10) / 5 * 4 + (768 / 2 - 20 - 10) / 5 / 2 + 5);
-            g2D.setFont(new Font("Dialog", 12, 12));
+            MyShop.paint(g);
         }
 
         if (MyStart.isVisible()) {

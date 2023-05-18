@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 public class MyJFrame extends JFrame{
 
-    MyJPanel panel;
+    private MyJPanel panel;
 
     public MyJFrame(){
         super("Animon");

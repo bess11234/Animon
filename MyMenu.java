@@ -26,8 +26,6 @@ public class MyMenu {
     private static boolean save;
     private static boolean exit;
 
-    ;
-
     public static boolean isVisible() {
         return visible;
     }

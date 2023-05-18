@@ -116,17 +116,6 @@ public abstract class Animon implements Attackable, Serializable {
         return false;
     }
 
-    public void attacked(Animon attacker) {
-        if (this.hp - attacker.baseAtk <= 0) {
-//            System.out.println("Your animon are dead.");
-            this.dead();
-            attacker.levelUp(this);
-        } else {
-            this.hp -= attacker.baseAtk;
-            attacker.stamina += attacker.baseAtk;
-        }
-    }
-
     public void attacked(Animon attacker, int damage) {
         if (this.hp - damage <= 0) {
             this.hp = 0;

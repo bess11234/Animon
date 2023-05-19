@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.Iterator;
 import java.util.Random;
 import javax.swing.ImageIcon;
 

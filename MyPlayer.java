@@ -9,7 +9,6 @@
  */
 import java.awt.Image;
 import java.awt.*;
-import java.io.Serializable;
 import javax.swing.*;
 
 public class MyPlayer extends Player {

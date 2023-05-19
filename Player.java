@@ -165,7 +165,6 @@ public class Player implements Serializable{
         this.count_potionHPL = count_potionHPL;
     }
 
-
     public int getCount_potionSTS() {
         return count_potionSTS;
     }

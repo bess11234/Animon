@@ -28,7 +28,7 @@ public class MyJPanel extends JPanel implements Runnable {
             map2_hitbox6, map2_hitbox7, map2_hitbox8, map2_hitbox9, map2_hitbox10, map2_hitbox11,
             map2_hitbox12, map2_hitbox13, map2_hitbox14, map2_hitbox15, map2_hitbox16, map2_hitbox17,
             map2_hitbox18, map2_hitbox19, map2_hitbox20, map2_hitbox21, map2_hitbox22, map2_hitbox23,
-            map2_hitbox24, map2_hitbox25, map2_hitbox26, map3_hitbox1, map3_hitbox2, map4_hitbox1, map4_hitbox2, map4_hitbox3,
+            map2_hitbox24, map2_hitbox25, map2_hitbox26, map3_hitbox1, map4_hitbox1, map4_hitbox2, map4_hitbox3,
             map4_hitbox4, map4_hitbox5, map4_hitbox6, map4_hitbox7, map4_hitbox8,
             map4_hitboxfish1, map4_hitboxfish2, map4_hitboxfish3, map4_hitboxfish4;
 
